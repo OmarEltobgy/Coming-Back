@@ -1,0 +1,38 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+vector<pair<int, int> > XY;
+
+// Coming Back :D
+// UVA 10976 Fractions Again
+// Complete Search One Loop testing all the possibilities
+int main()
+{
+    int X, Y, K;
+    double tempX;
+
+    while(scanf("%d",&K) != EOF) // while(scanf("%d",&K)) causes TLE !!!
+    {
+        XY.clear(); // Clearing the vector
+        // In this range the Calculated X is bigger than Y
+        // If Y is smaller than K+1 X will be negative
+        // And if Y i bigger than 2K X will be smaller than Y
+        for(int Y=K+1; Y<=2*K; Y++)
+        {
+            if((Y*K)%(Y-K) == 0) // To be sure that X will be an integer
+            {
+                X = (Y*K)/(Y-K); // X is Bigger
+                XY.push_back(pair<int, int>(X, Y));
+            }
+        }
+
+        printf("%d\n", XY.size());
+        for(int i=0; i<XY.size(); i++)
+        {
+            printf("1/%d = 1/%d + 1/%d\n", K, XY[i].first, XY[i].second);
+        }
+    }
+}
