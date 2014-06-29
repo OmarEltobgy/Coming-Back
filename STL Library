@@ -1,0 +1,45 @@
+1) Pair:
+- pair<int, pair<string, double> > x;
+- pair.first and pair.second
+
+2) Vector:
+- resize(): changes the size also you can specify the size in the constructor
+- vector[x] or vector.at(x):: to read or write in a specific index
+- vector.push_back(x)
+- void vector.pop_back()
+- x = vector.front() or x = vector.back()
+
+3) Queue:
+- queue.push(x)
+- void queue.pop()
+- x = queue.front() or x = queue.back
+
+4) Priority Queue:
+- same as queue except the constructor (push / pop)
+- pq.top()
+- priority_queue<int, vector<int>, greater<int> > pq  // the smallest one is at the top
+                                                      // #include <functional> for greater<int> or less<int>
+- priority_queue<int> pq  // less is the default ( the greatest one is at the top )
+
+5) Map:
+- map<key, value> map
+- value = map[key] (map.at(key) // returns default value if there is no such key (0 for int, "" for string)
+- map[key] = value // also you can use map.at(key)
+- int = map.count(key) // 0 if there is no such key
+
+
+6) General: 
+- for(it=x.begin; it<x.end; it++) int i = (int)it;
+  begin() -> returns an iterator to the beginning
+  end() -> returns an interator to the end
+- clear()
+- size(): actual size
+
+7) Strings vs Character Array:
+- str.c_str(): to change a string to a character array
+- str.size() or str.length()
+- gets(char Array): reads a character array till \n 
+- getLine(cin, str): reads a string till \n
+** Note that if there is a line before getline() it will read an empty line representaing the remaining of this line
+   so you should place 2 getLine() statements to avoid this case
+- cin >> str: reads a string til space ' '
