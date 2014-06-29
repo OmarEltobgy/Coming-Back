@@ -43,3 +43,12 @@
 ** Note that if there is a line before getline() it will read an empty line representaing the remaining of this line
    so you should place 2 getLine() statements to avoid this case
 - cin >> str: reads a string til space ' '
+
+** Sorting:
+- sort(myvector.begin(), myvector.end(), myCompFunction) 
+  bool myCompFunction(int first, int second)
+- sort( array, array + sizeof(array)/sizeof(array[0]) ); // or array + size
+  Note that the sizeof() function returns the answer in bytes
+  and we want to add the size of the array (Number of integer entries for example)
+
+
