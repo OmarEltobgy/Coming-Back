@@ -1,0 +1,98 @@
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+bool numbers[100];
+int pNumber, cNumber;
+int values[100];
+
+void permutationWithRepitition(int index, int n, int r, int scoreLeft)
+{
+    if(scoreLeft < 0)
+    {
+        return;
+    }
+
+    if(index == r)
+    {
+        if(scoreLeft == 0)
+        {
+            pNumber++;
+        }
+        return;
+    }
+
+    for(int i=0; i<n; i++)
+    {
+        permutationWithRepitition(index+1, n, r, scoreLeft-values[i]);
+    }
+}
+
+void combinationWithRepitition(int index, int n, int r, int scoreLeft, int toStartFrom)
+{
+    if(scoreLeft < 0)
+    {
+        return;
+    }
+
+    if(index == r)
+    {
+        if(scoreLeft == 0)
+        {
+            cNumber++;
+        }
+        return;
+    }
+
+    for(int i=toStartFrom; i<n; i++)
+    {
+        combinationWithRepitition(index+1, n, r, scoreLeft-values[i], i);
+    }
+}
+
+int main()
+{
+    int X;
+    numbers[0] = true;
+    numbers[50] = true;
+    for(int i=1; i<=20; i++)
+    {
+        numbers[i] = true;
+        numbers[i*2]= true;
+        numbers[i*3] = true;
+    }
+    int N = 0;
+    for(int i=0; i<=60; i++)
+    {
+        if(numbers[i] == true)
+        {
+            values[N] = i;
+            N++;
+        }
+    }
+
+    cin >> X;
+    while(X > 0)
+    {
+        pNumber = 0;
+        cNumber = 0;
+        permutationWithRepitition(0, N, 3, X);
+        combinationWithRepitition(0, N, 3, X, 0);
+
+        if(pNumber == 0 && cNumber == 0)
+        {
+            printf("THE SCORE OF %d CANNOT BE MADE WITH THREE DARTS.\n", X);
+        }
+        else
+        {
+            printf("NUMBER OF COMBINATIONS THAT SCORES %d IS %d.\n", X, cNumber);
+            printf("NUMBER OF PERMUTATIONS THAT SCORES %d IS %d.\n", X, pNumber);
+        }
+
+        cout << "**********************************************************************" << endl;
+
+        cin >> X;
+    }
+    cout << "END OF OUTPUT" << endl;
+    return 0;
+}
