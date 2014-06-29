@@ -1,0 +1,126 @@
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <math.h>
+#include <stdio.h>
+using namespace std;
+
+bool taken[10];
+vector<int> permut;
+int res[10];
+
+void permutation(int index, int n, int r)
+{
+    if(index == r)
+    {
+        int toStore = 0;
+        for(int i=0; i<r; i++)
+        {
+            toStore += res[i] * pow(10, r-i-1);
+        }
+        permut.push_back(toStore);
+    }
+    for(int i=0; i<n; i++)
+    {
+        if(taken[i] == false)
+        {
+            taken[i] = true;
+            res[index] = i;
+            permutation(index+1, n, r);
+            taken[i] = false;
+        }
+    }
+}
+
+bool isValid(int first, int second)
+{
+    for(int i=0; i<10; i++)
+    {
+        taken[i] = false;
+    }
+
+    if(first > 99999)
+    {
+        return false;
+    }
+
+    if(second <= 9999)
+    {
+        taken[0] = true;
+    }
+    if(first <= 9999)
+    {
+        if(taken[0] == true)
+        {
+            return false;
+        }
+        taken[0] = true;
+    }
+
+    while(first != 0)
+    {
+        int rem = first % 10;
+        if(taken[rem] == true)
+        {
+            return false;
+        }
+        else
+        {
+            taken[rem] = true;
+        }
+        first = first / 10;
+    }
+
+    while(second != 0)
+    {
+        int rem = second % 10;
+        if(taken[rem] == true)
+        {
+            return false;
+        }
+        else
+        {
+            taken[rem] = true;
+        }
+        second = second / 10;
+    }
+    return true;
+}
+
+int main()
+{
+    for(int i=0; i<10; i++)
+    {
+        taken[i] = false;
+    }
+    permutation(0, 10, 5);
+
+    int N, sol;
+
+    cin >> N;
+    while(N != 0)
+    {
+        sol = 0;
+        for(int i=0; i<permut.size(); i++)
+        {
+            int num = N * permut[i];
+            if(isValid(num, permut[i]) == true)
+            {
+                sol = 1;
+                printf("%05d / %05d = %d\n", num, permut[i], N);
+            }
+        }
+        if(sol == 0)
+        {
+            printf("There are no solutions for %d.\n", N);
+        }
+
+        cin >> N;
+        if(N != 0)
+        {
+            printf("\n");
+        }
+    }
+
+    return 0;
+}
