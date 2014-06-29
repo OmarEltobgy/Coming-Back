@@ -1,0 +1,64 @@
+void permutationWithoutRepitition(int index, int n, int r)
+{
+    if(index == r)
+    {
+        result.push_back(res.copy());
+        number++;
+        return; // Very Important.....
+    }
+    for(int i=0; i<n; i++)
+    {
+        if(taken[i] == false)
+        {
+            taken[i] = true;
+            res[index] = value[i];
+            permutation(index+1, n, r);
+            taken[i] = false;
+        }
+    }
+}
+
+void permutationWithoutRepitition(int index, int n, int r)
+{
+    if(index == r)
+    {
+        result.push_back(res.copy());
+        number++;
+        return; // Very Important.....
+    }
+    for(int i=0; i<n; i++)
+    {
+        res[index] = value[i];
+        permutation(index+1, n, r);
+    }
+}
+
+void combinationWithoutRepitition(int index, int n, int r, int toStartFrom)
+{
+    if(index == r)
+    {
+        result.push_back(res.copy());
+        number++;
+        return; // Very Important.....
+    }
+    for(int i=toStartFrom; i<n; i++)
+    {
+        res[index] = value[i];
+        permutation(index+1, n, r, i+1); // Not i
+    }
+}
+
+void combinationWithoutRepitition(int index, int n, int r, int toStartFrom)
+{
+    if(index == r)
+    {
+        result.push_back(res.copy());
+        number++;
+        return; // Very Important.....
+    }
+    for(int i=toStartFrom; i<n; i++)
+    {
+        res[index] = value[i];
+        permutation(index+1, n, r, i); // Not i+1
+    }
+}
