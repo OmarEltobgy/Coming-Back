@@ -1,0 +1,35 @@
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
+using namespace std;
+
+double eps = 1e-9;
+
+int main()
+{
+    int x=0;
+    for(int i=1; 4*i<=2000; i++)
+    {
+        for(int j=i; i+3*j<=2000; j++)
+        {
+            for(int k=j; i+j+2*k<=2000; k++)
+            {
+                int l = (-1000000.0*(i+j+k)) / (1000000.0-i*j*k);
+                if(l >= 1 && l <= 2000)
+                {
+                    if(l < i || l < j || l < k)
+                    {
+                        break;
+                    }
+                    if(i+j+k+l <= 2000 && fabs(1000000*(i+j+k+l) - i*j*k*l) < eps) // or (double)l - (int)l < eps
+                    {
+                        printf("%.02f %.02f %.02f %.02f\n", i/100.0, j/100.0, k/100.0, l/100.0);
+                        x++;
+                    }
+                }
+            }
+        }
+    }
+    //cout << x << endl;
+    return 0;
+}
