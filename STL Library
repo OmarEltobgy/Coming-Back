@@ -47,8 +47,10 @@
 ** Sorting:
 - sort(myvector.begin(), myvector.end(), myCompFunction) 
   bool myCompFunction(int first, int second)
-- sort( array, array + sizeof(array)/sizeof(array[0]) ); // or array + size
+- sort( array, array + sizeof(array)/sizeof(array[0]) ); // or arra + size
   Note that the sizeof() function returns the answer in bytes
   and we want to add the size of the array (Number of integer entries for example)
+
+** bool next_permutation(x, y) same parameters as sort(x, y) returns true when there are no more permutations
 
 
