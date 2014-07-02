@@ -1,0 +1,115 @@
+1) Primes: 
+- Primes are numbers that are only divisible by one and itself to check if a number is prime:
+- Any integer can be represented as product of primes raised to a power >= 0
+- Multiplication of 2 integers means adding the exponents (powers) of the primes 
+- a divides b (a|b) if all the exponents of a <= exponents of b
+- To determine the GCD of 2 numbers find the lowest exponent raised to each prime 
+- To determine the LCM of 2 numbers find the greatest exponent raised to each prime 
+
+** Checking if a number is prime:
+  public boolean isPrime (int n)
+  {
+     if (n<=1) return false;
+     if (n==2) return true;
+     if (n%2==0) return false; // Even number but not 2 (bec. we will not loop on even numbers)
+     int m=Math.sqrt(n);
+  
+     for (int i=3; i<=m; i+=2)
+     {
+        if (n%i==0)
+        {
+           return false;
+        }
+     }
+  
+     return true;
+  }
+
+** Generating primes from 1 to n [Sieve of Eratothenes]
+  public boolean[] sieve(int n)
+  {
+     boolean[] prime=new boolean[n+1];
+     vector<int> primesList;
+     Arrays.fill(prime,true);
+     prime[0]=false;
+     prime[1]=false;
+
+     for (int i=2; i*i<n; i++) // Note that it loops till sqrt(N)
+     {
+        if (prime[i] == true)
+        {
+           primesList.push_back(i);
+           for (int k=i*i; k<=n; k+=i) // Note that we strart from (i*i) till n and we increment each time (i)
+           {
+              prime[k]=false;
+              //if(primefactor[k] == k) // The Smallest Prime Factor to Add
+                //primeFactor[k] = i    // Modified Sieve
+           }
+        }
+     }
+     
+     for(int i=m+1; i<=n; i++) // Adding the rest of primes 
+     {
+        if(prime[i] == true)
+        {
+           primesList.push_back(i);
+        }
+     }
+     
+     return prime;
+  } 
+
+** Factorization:
+- Trial Division Factorization:
+  for(int i=0; i*i<N; i++) --Note that we loop till sqrt(N)
+  {
+    while(N%i == 0)
+    {
+      power[i] ++;
+      //primeFactorResult.add(i);
+      N = N / i;
+    }
+  }
+  if(N > 1) // certainly this is the ONLY remaining prime factor which is bigger than sqrt(N)
+  {
+    power[N] ++;
+    //primeFactorResult.add(N);
+    N = N / i; // certainly N will be 1
+  }
+  
+- Modified Sieve: In primeFactor[] we have a prime factor of the number (the smallest one)
+  while(N != 1)
+  {
+    power[primeFactor[N]] ++;
+    //primeFactorResult.add(primeFactor[N]);
+    N = N / primeFactor[N];
+  }
+
+  
+** Finding the GCD and LCM:
+  // Ecluid's Algorithm
+  public int GCD(int a, int b)
+  {
+     if (b==0) return a;
+     return GCD(b,a%b);
+  }
+  
+  public int LCM(int a, int b)
+  {
+     return b*a/GCD(a,b);
+  }
+  
+- To determine the GCD of 2 numbers find the lowest exponent raised to each prime 
+- To determine the LCM of 2 numbers find the greatest exponent raised to each prime 
+
+** Number of Prime Number p in N!:
+  int toAdd;
+  int result = 0;
+  int power = 1;
+  while(toAdd != 0)
+  {
+    toAdd = N / pow(p, power);
+    t += toAdd;
+    power ++;
+  }
+
