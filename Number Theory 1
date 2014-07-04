@@ -96,7 +96,7 @@
   
   public int LCM(int a, int b)
   {
-     return b*a/GCD(a,b);
+     return (b*a)/GCD(a,b);
   }
   
 - To determine the GCD of 2 numbers find the lowest exponent raised to each prime 
