@@ -25,7 +25,8 @@
      return true;
   }
 
-** Generating primes from 1 to n [Sieve of Eratothenes]
+** Generating primes from 1 to n [Sieve of Eratothenes] //Note that ou must be able to create an array with this N 
+                                                          [N shouldn't be too Large]
   public boolean[] sieve(int n)
   {
      boolean[] prime=new boolean[n+1];
@@ -65,8 +66,8 @@
   {
     while(N%i == 0)
     {
-      power[i] ++;
       //primeFactorResult.add(i);
+      power[i] ++; //power is a map
       N = N / i;
     }
   }
@@ -77,7 +78,7 @@
     N = N / i; // certainly N will be 1
   }
   
-- Modified Sieve: In primeFactor[] we have a prime factor of the number (the smallest one)
+- Modified Sieve: In primeFactor[] we have a prime factor of the number (the smallest one) //N isn't too Large
   while(N != 1)
   {
     power[primeFactor[N]] ++;
@@ -96,7 +97,7 @@
   
   public int LCM(int a, int b)
   {
-     return a*(b/GCD(a,b)); // Diveide anyof them before multiplication to avoid overflow
+     return a*(b/GCD(a,b)); // Divide any of them before multiplication to avoid overflow
   }
   
 - GCD(a, b, c) = GCD(a, GCD(b, c));
