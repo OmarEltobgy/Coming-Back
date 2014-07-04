@@ -96,9 +96,10 @@
   
   public int LCM(int a, int b)
   {
-     return (b*a)/GCD(a,b);
+     return a*(b/GCD(a,b)); // Diveide anyof them before multiplication to avoid overflow
   }
   
+- GCD(a, b, c) = GCD(a, GCD(b, c));
 - To determine the GCD of 2 numbers find the lowest exponent raised to each prime 
 - To determine the LCM of 2 numbers find the greatest exponent raised to each prime 
 
