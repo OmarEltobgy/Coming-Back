@@ -13,6 +13,15 @@
   (a * b) % m = 1               a and b are positive integers
 
 
+** Computing very large number % m: we read the number as a string str
+  int result = 0;
+  for(int i=0; i<str.length(); i++)
+  {
+    nowN = str[i] - '0';
+    result = (result + nowN) % 11; //result and nowN are less than 11
+    result = (result * 10) % 11; //result and 10 are less than 11
+  }
+
 **Effective Square Exponentiation:
 1)int power(int base, int exp)
   {
@@ -52,3 +61,5 @@
 2) Computing number of paths of length L of a graph stored in an Adjacency Matrix
    result = AdjMat^L -> Number of Paths of length L from vertex i to j equals result[i][j]
    
+
+
