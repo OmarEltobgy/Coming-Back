@@ -1,0 +1,54 @@
+**Modular Arithmetic:
+- a = floor(a/b)*b + a%b
+- (a +-* b) % m = (a%m +-* b%m) % m;
+- If you want to compute large number mod m then while computing this large number take mod using previous rule to avoid
+  overflow
+- If you have addition and subtraction for integers do the subtraction first then the ddition to avoid the overflow
+  also do the same with * and / but note that the division may result in a double value
+  (x - y) + z not (x + z) - y           (x / y) * z not (x * z) / y
+- For the division, we use the modular multiplicative inverse
+- Modular Additive inverse:     can be computed b = m - a
+  (a + b) % m = 0               a and b are positive integers
+- Modular Multiplicative Inverse:      its computation is discussed below
+  (a * b) % m = 1               a and b are positive integers
+
+
+**Effective Square Exponentiation:
+1)int power(int base, int exp)
+  {
+    if(exp == 0) return 1; /*********** VIP *************/
+    
+    int result = power(base, exp/2);
+    result = result * result;                      // We take %m here for modular exponentiation
+    
+    if(exp % 2 == 1) result = result * base;       // We take %m here for modular exponentiation
+    
+    return result;
+  }
+  
+2)int modular_pow(int base, int exp, int m)
+  {
+    Assert :: (m - 1) * (base mod m) does not overflow base
+    int result = 1;
+    int base = base % m;
+    while(exp > 0)
+    {
+      if (exp % 2 == 1)
+      {
+         result = (result * base) % m;
+      }
+      exp = exp >> 1;
+      base = (base * base) % m;
+    }
+    return result
+  }
+
+- We can use Matrix Effective square exponentiation to do many tasks in O(n^3log(p)) instead of O(p) as:
+1) Computing a certain fibonnacci number fib(n) 
+   [ 1 1 ] ^ p   [ fib(p+1) fib(p)   ]
+   [ 1 0 ]     = [ fib(p)   fib(p-1) ]
+   Note that we can compute all fibonnacci numbers from 1 to n in an O(n) DP Algorithm which is better of course
+
+2) Computing number of paths of length L of a graph stored in an Adjacency Matrix
+   result = AdjMat^L -> Number of Paths of length L from vertex i to j equals result[i][j]
+   
