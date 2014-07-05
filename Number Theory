@@ -146,11 +146,13 @@
    
 ** Finding the Number of relativley prime Numbers to N: //2 numbers are relativley prime if GDC(a,b) = 1
    EulerPhi(N) = N * product of (1-1/p) for each prime factor
+   if(N == 1) return 0; /********** EulerPhi(1) = 0 ***********/ normally it will return 1 so you must handle this case
    result = N;
    for(int i=0; i<primeFactor.size(); i++)
    {
      int PF = primeFactor[i];
      result = result - result/PF; // We can add this single line in any of the previous methods
+                                  // Take care how we use the formula first of all we put result=N to avoid any overflow
    }
    // phi(m*n) = phi(m) * phi(n) if m and n are relativley prime
    // phi(p) = p-1 if p is a prime number
