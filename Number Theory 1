@@ -1,4 +1,10 @@
-1) Primes: 
+** Overflow: int + int = int and long + long = long
+   so if you have int + int - int which you are sure that this will be an int 
+  this might cause an overflow as int + int in the first may result in an overflow
+  so either do the subtraction first or change to long long 
+  the same happens with * and /
+
+** Primes: 
 - Primes are numbers that are only divisible by one and itself to check if a number is prime:
 - Any integer can be represented as product of primes raised to a power >= 0
 - Multiplication of 2 integers means adding the exponents (powers) of the primes 
@@ -26,7 +32,8 @@
   }
 
 ** Generating primes from 1 to n [Sieve of Eratothenes] //Note that ou must be able to create an array with this N 
-                                                          [N shouldn't be too Large]
+   [N shouldn't be too Large] [not bigger than 10^8 (int primefactor[]) or 10^9 (bool isPrime[])]
+   global array maximum size is bigger than local array :D 
   public boolean[] sieve(int n)
   {
      boolean[] prime=new boolean[n+1];
@@ -62,31 +69,118 @@
 
 ** Factorization:
 - Trial Division Factorization:
-  for(int i=0; i*i<N; i++) --Note that we loop till sqrt(N)
+1)for(int i=1; i*i<N && N!=1; i++) --Note that we loop till sqrt(N) or until N==1
   {
-    while(N%i == 0)
+    if(N%i == 0)
     {
-      //primeFactorResult.add(i);
-      power[i] ++; //power is a map
-      N = N / i;
+      primeFactorResult.add(i);
+      power[i] = 0;
+      while(N%i == 0)
+      {
+        power[i] ++; //power is a map
+        N = N / i;
+      }
     }
   }
+  /************** VIP VTP VIP **************/
   if(N > 1) // certainly this is the ONLY remaining prime factor which is bigger than sqrt(N)
   {
-    power[N] ++;
-    //primeFactorResult.add(N);
+    primeFactorResult.add(N);
+    power[N] = 1;
     N = N / i; // certainly N will be 1
   }
   
-- Modified Sieve: In primeFactor[] we have a prime factor of the number (the smallest one) //N isn't too Large
-  while(N != 1)
+2) Tial Division fctorization after making normal sieve to have a list of primes 
+  N isn't too large >10^9 as we need to make an array a bool array for each integer and a vector for the primes
+- int index=0, nowPrime=primes[index];
+  while(N!=1 && nowPrime*nowPrime<=N) //We loop till N==1 or prime*prime>N and of course we need to be sure that the 
+                //primes array contains sufficient primes in order not to finish the array before complete factorization
+  {
+    if(N%nowPrime == 0)
+    {
+      primeFactorResult.add(nowPrime);
+      power[nowPrime] = 0;
+      while(N%nowPrime == 0)
+      {
+        power[nowPrime] ++; //power is a map
+        N = N / nowPrime;
+      }
+    }
+    index ++;
+    nowPrime = primes[index];
+  }
+  /************** VIP VTP VIP **************/
+  if(N > 1) // certainly this is the ONLY remaining prime factor which is bigger than sqrt(N)
+  {
+    primeFactorResult.add(N);
+    power[N] = 1;
+    N = N / i; // certainly N will be 1
+  }
+  
+3)Modified Sieve: In primeFactor[] we have a prime factor of the number (the smallest one) 
+  N isn't Large >10^8 as we need to make an integer array for each integer
+- while(N != 1)
   {
     power[primeFactor[N]] ++;
     //primeFactorResult.add(primeFactor[N]);
     N = N / primeFactor[N];
   }
-
   
+** Number/Sum of all the prime factors: This is easy we can do it with a single line in any of the precious methods
+
+** Number of all the factors: the product of (1 + power of each prime factor)
+   result = 1;
+   for(int i=0; i<primeFactor.size(); i++)
+   {
+     result *= (power[primeFactor[i]]+1); // We can add this single line in any of the previous methods
+   }
+   
+** Sum of all the factors:
+   result = 1;
+   for(int i=0; i<primeFactor.size(); i++)
+   {
+     int PF = primeFactor[i];
+     int power = power[primeFactor[i]];
+     result *= (pow(PF, power+1.0)  - 1) / (PF-1); // We can add this single line in any of the previous methods
+   }
+   
+** Finding the Number of relativley prime Numbers to N: //2 numbers are relativley prime if GDC(a,b) = 1
+   EulerPhi(N) = N * product of (1-1/p) for each prime factor
+   result = N;
+   for(int i=0; i<primeFactor.size(); i++)
+   {
+     int PF = primeFactor[i];
+     result = result - result/PF; // We can add this single line in any of the previous methods
+   }
+   
+** Finding the factors of a number:
+- We can get the prime factors by any of the previous ways and then loop 
+  on the exponents of each prime factor from 0 to prime Factor Number [This is hard you need many nested for loops]
+- if N is large: [A lot Easier]
+  for(int i=1; i*i<=N; i++) // We begin from 1 till sqrt(N)
+  {
+    if(N % i == 0)
+    {
+      allFactors.push_back(i);
+      if(N/i != i) // Very Important :D
+      {
+        allFactors.push_back(N/i);
+      }
+    }
+  }
+
+** Number of Prime Number p in N! (factroial):
+  int toAdd;
+  int result = 0;
+  int power = 1;
+  toAdd = N / pow(p, power);
+  while(toAdd != 0)
+  {
+    result += toAdd;
+    power ++;
+    toAdd = N / pow(p, power);
+  }
+
 ** Finding the GCD and LCM:
   // Ecluid's Algorithm
   public int GCD(int a, int b)
@@ -103,15 +197,3 @@
 - GCD(a, b, c) = GCD(a, GCD(b, c));
 - To determine the GCD of 2 numbers find the lowest exponent raised to each prime 
 - To determine the LCM of 2 numbers find the greatest exponent raised to each prime 
-
-** Number of Prime Number p in N!:
-  int toAdd;
-  int result = 0;
-  int power = 1;
-  while(toAdd != 0)
-  {
-    toAdd = N / pow(p, power);
-    t += toAdd;
-    power ++;
-  }
-
