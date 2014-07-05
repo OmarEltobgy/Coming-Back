@@ -152,6 +152,8 @@
      int PF = primeFactor[i];
      result = result - result/PF; // We can add this single line in any of the previous methods
    }
+   // phi(m*n) = phi(m) * phi(n) if m and n are relativley prime
+   // phi(p) = p-1 if p is a prime number
    
 ** Finding the factors of a number:
 - We can get the prime factors by any of the previous ways and then loop 
