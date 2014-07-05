@@ -62,4 +62,44 @@
    result = AdjMat^L -> Number of Paths of length L from vertex i to j equals result[i][j]
    
 
+**Extended Ecluidean Algorithm (to find multiplicative modular inverse or find certain values x,y to ax+by=z)
+  //x, y and d are global variables
+  void extEcluid(int a, int b) // ax + by = d = gcd(a,b) - we want to get x, y, d
+  {
+    if(b == 0)
+    {
+      x = 1;
+      y = 0;
+      d = a;
+      return;
+    }
+    extEcluid(b, a%b);
+    int x1 = y;
+    int y1 = x - (a/b)*y;
+    x = x1;
+    y = y1;
+  }
+- Now we have ax+by=d we can multiply the left and right hand side with any value to get the required value (z)
+- There are infinite number of solutions for x and y (by changing n)
+  x = x + (b/d)*n              y = y - (a/d)*n
+- by these 2 rules we can solve this equation ax + by = z given a,b and the required is x,y
+
+**Fermat's Theorem:
+  if p is a prime number and a is relativley prime to p then (a^(p-1)) % p = 1
+  if p is a prime number and a positive integer then (a^(p)) % p = a
+
+**Euler's Theorem:
+  for any a, b relativley prime to each other then (a^(phi(b))) % b = 1       //phi(p) = p-1 same as fermat
+  for any a, b (a^(phi(b)+1)) % b = a      //phi(p) = p-1 same as fermat
+
+**Modular Multiplicative Inverse:
+- (a * a^-1) % m = 1        a and m must be relativley prime
+1) extEcluid(a, m): d must equal 1 and the a^-1 corresponds to x
+2) Euler's Theorem: (a^(phi(m)-1)) % m = a^-1 % m
+   if m is prime p we can use Fermat's Theorem instead: (a^(p-2)) % p = a^-1 % m
+
+**Chineese Remainder Theorem (CRT):
+
+
+
 
