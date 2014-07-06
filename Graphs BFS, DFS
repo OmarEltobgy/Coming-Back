@@ -1,0 +1,89 @@
+**DFS:
+  vector<bool> visited; //All are initialized to false
+  vector<vii> AdjList; //pair<neighbour vertex number, weight of edge>
+  void DFS(int nowNode)
+  {
+    visited[nowNode] = true;
+    for(int i=0; i<AdjList[nowNode].size(); i++)
+    {
+      ii neighbour = AdjList[nowNode][i];
+      int neighbourNumber = neighbour.first;
+      int distance = neighbour.second;          //We don't use this as we are going level by level (unweighted graph)
+      if(visited[neighbourNumber] == false)
+      {
+        DFS(neighbourNumber);
+      }
+    }
+  }
+  
+- Note that the main difference between DFS and backtracking is that in backtracking we mark the node as not visited
+  again after the return from the call so we get all the possible paths not only one as in DFS
+  
+  
+**BFS:
+  vector<int> distance; //instead of visited because we store the distance form the source node  (all initialized to -1)
+                        //as we may use this in Single Source Shortest Path in an undirected graph
+  queue<ii> q; //pair<vertex Number, distance from source node>
+  void BFS(int sourceNode)
+  {
+    distance[sourceNode] = 0;
+    q.push(sourceNode);
+    
+    while(q.empty() == false)
+    {
+      ii f = q.front();
+      q.pop();
+      int nowNode = f.first;
+      int minDist = f.second;
+      for(int i=0; i<AdjList[nowNode].size(); i++)
+      {
+        ii neighbour = AdjList[nowNode][i];
+        int neighbourNumber = neighbour.first;
+        int distance = neighbour.second;          //We don't use this as we are going level by level and we store 
+                                                  //the level number (unweighted graph) instead of the edge Weight 
+        if(distance[neighbourNumber] == -1)
+        {
+          distance[neighbourNumber] = minDist + 1; //Next Level
+          q.push(neighbourNumber);
+        }
+      }
+    }
+  }
+
+- Note that we mark the node as visited or update the distance when we push it in the queue 
+  unlike dijkestra in which we do this when we pop the node from the queue
+  because in BFS we are sure that this is the minimum distance (unweighted graph, level by level approach)
+  while in Dijkestra there may be a shorter path so we enqueue all the nodes with the corresponding path
+  and when we pop the node we check if it is shorter than the distance stored we update the distance and work on this node
+  
+** Both BFS and DFS tuns in O(V+E) with AdjList and O(V^2) with AdjMat
+  
+**Connected Components:
+- We can find the connectend components in an undirected graph using BFS or DFS by running the algorithm 
+  on each unvisited node if found after the return from a call 
+  each call will give you a different connected component
+- Also we can use union find data structure to do this
+- Therefore we can find the number of different connected components in a graph and the number of nodes in each one 
+  also we can label (color) each connected component
+
+**Flood Fill with Implicit Graph (2D Grid):
+- if we have a 2D grid with allowed moves for example the eight neighbours
+  int dx[] = {0, 1,  0, -1, 1, -1,  1, -1}
+  int dy[] = {1, 0, -1,  0, 1, -1, -1,  1}
+- Now suppose that we have white and black nodes and we want to find the number of connected white components
+  Now we have 3 states for each node [White, Black, Visited White component to avoid revisiting a node]
+  
+**Bipartite Graph: /*** Odd Cycle Check ***/
+- We will have 3 states [Visited Black, Visited White, Not Visited]
+  for each node when we see its neighbours to examine them with either BFS or DFS its neighbours may be
+  1) Visited same color -False-
+  2) Visited Different colour -continue true till now-
+  3) Not Visited -continue true till now- color it with different color and work on it normally
+  
+**Topological Sort in Dirceted Acyclic Graph (DAG):
+- This is a linear ordering of vertices so u comes before v if edge (u->v) exists
+- using normal DFS but at the end of it put topoSort.push_back(u) then reverse the vector you will have one of many
+  valid topological sort
+  
+  
+  
