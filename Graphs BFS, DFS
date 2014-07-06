@@ -1,3 +1,6 @@
+**Taking the Input as AdjMat or AdjList:
+- Take care of repeated edges between same vertices either with the same weight or different weights 
+
 **DFS:
   vector<bool> visited; //All are initialized to false
   vector<vii> AdjList; //pair<neighbour vertex number, weight of edge>
