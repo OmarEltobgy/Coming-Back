@@ -1,0 +1,38 @@
+**Bellman Ford:
+- This is used to get single source shortest path to all other nodes also it allows edges to have negative weights
+- Also it can be used to determine if there exists any negative cycles in the graph
+
+
+for(int i=0; i<nodesN; i++)
+{
+    minDist[i] = INF; //INF = 2000000000
+}
+
+minDist[0] = 0;
+for(int i=0; i<nodesN-1; i++)
+{
+    for(int e=0; e<(int)edgeList.size(); e++)
+    {
+        iii nowEdge = edgeList[e];
+        weight = nowEdge.first;
+        first = nowEdge.second.first;
+        second = nowEdge.second.second;
+        if(minDist[first] != INF && minDist[second] > minDist[first] + weight)
+        {
+            minDist[second] = minDist[first] + weight;
+        }
+    }
+}
+
+bool negativeCycle = false;
+for(int e=0; e<(int)edgeList.size(); e++)
+{
+    iii nowEdge = edgeList[e];
+    weight = nowEdge.first;
+    first = nowEdge.second.first;
+    second = nowEdge.second.second;
+    if(minDist[first] != INF && minDist[second] > minDist[first] + weight)
+    {
+        negativeCycle = true;
+    }
+}
