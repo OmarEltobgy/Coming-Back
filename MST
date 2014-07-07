@@ -1,0 +1,165 @@
+- You should have undirected, connected, weighted graph and we want to get the minimum subset of edges so that the graph
+  is still connected with no cycles to form a tree (n-1 edge) such that the total weights of edges is minimum (MST)
+  
+**Kruskal's Algorithm:
+int nodesN, edgesN;
+vector<iii> edgeList;
+vector<int> parent;
+vector<int> rankk;
+vector<int> sizee;
+
+void initSet(int N)
+{
+    parent.clear();
+    parent.resize(N);
+    rankk.clear();
+    rankk.resize(N);
+    sizee.clear();
+    sizee.resize(N);
+
+    for(int i=0; i<N; i++)
+    {
+        parent[i] = i;
+        sizee[i] = 1;
+    }
+}
+
+int findSet(int nowNode)
+{
+    if(parent[nowNode] == nowNode)
+    {
+        return nowNode;
+    }
+    else
+    {
+        return parent[nowNode] = findSet(parent[nowNode]);
+    }
+}
+
+bool isSameSet(int first, int second)
+{
+    if(findSet(first) == findSet(second))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool unionSet(int first, int second)
+{
+    if(isSameSet(first, second) == true)
+    {
+        return false;
+    }
+    else
+    {
+        int firstParent = findSet(first);
+        int secondParent = findSet(second);
+
+        if(rankk[firstParent] > rankk[second])
+        {
+            parent[secondParent] = firstParent; // append second set to first set
+            // The Same Rank for first parent
+            sizee[firstParent] += sizee[secondParent];
+            //Second parent is not Parent Anymore
+            rankk[secondParent] = -1;
+            sizee[secondParent] = -1;
+        }
+        else if(rankk[firstParent] < rankk[second])
+        {
+            parent[firstParent] = secondParent; // append first set to second set
+            // The Same Rank for second parent
+            sizee[secondParent] += sizee[first];
+            //First parent is not Parent Anymore
+            rankk[firstParent] = -1;
+            sizee[firstParent] = -1;
+        }
+        else //rankk[firstParent] == rankk[second]
+        {
+            parent[secondParent] = firstParent; // append second set to first set
+            rankk[firstParent] ++;
+            sizee[firstParent] += sizee[secondParent];
+            //Second parent is not Parent Anymore
+            rankk[secondParent] = -1;
+            sizee[secondParent] = -1;
+        }
+
+        return true;
+    }
+}
+
+int main()
+{
+
+    cin >> nodesN >> edgesN;
+    while(nodesN != 0 || edgesN != 0)
+    {
+        edgeList.clear();
+        initSet(nodesN);
+
+        int first, second, weight;
+        for(int i=0; i<edgesN; i++)
+        {
+            cin >> first >> second >> weight;
+            edgeList.push_back(iii(weight, ii(first, second)));
+        }
+
+        sort(edgeList.begin(), edgeList.end());
+
+        int counter = 0;
+        int MST_Cost = 0;
+        for(int i=0; i<(int)edgeList.size(); i++)
+        {
+            weight = edgeList[i].first;
+            first = edgeList[i].second.first;
+            second = edgeList[i].second.second;
+            //cout << weight << " " << first << " " << second << endl;
+            if(isSameSet(first, second) == false)
+            {
+                unionSet(first, second);
+                MST_Cost += weight;
+                if(counter == nodesN-1)
+                {
+                    break;
+                }
+            }
+        }
+        
+        cout << MST_Cost << endl;
+        
+        cin >> nodesN >> edgesN;
+    }
+
+    return 0;
+}
+
+
+**The Edge of the MST are the edges used in unionSet 
+
+**Maximum Spanning Tree:
+- Sort the tree in decreasing order
+
+**Partial Minimum Spanning Tree:
+- He gives to you some edges that must be in the tree so we take them and continue working with our algorithm
+
+**Minimum Spanning Forest:
+- It is not required to connect all the graph and give the number of components that can be disconnected
+  so we run kruskal's till we reach this number of components
+  
+**Second Best Minimum Spanning Tree:
+- We run Kruskal's to get the MST then for each edge of the MST we remove it from the graph and get a new MST without
+  this edge then find the minimum tree you can get
+  
+**Minimax (and Maximim):
+- 
+
+
+
+
+
+
+
+
