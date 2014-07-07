@@ -53,4 +53,4 @@
 
 ** bool next_permutation(x, y) same parameters as sort(x, y) returns true when there are no more permutations
 
-
+** whn using pow() function there is always round off error so use round(pow()) instead
