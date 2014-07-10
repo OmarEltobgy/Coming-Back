@@ -154,12 +154,10 @@ int main()
   this edge then find the minimum tree you can get
   
 **Minimax (and Maximim):
-- 
-
-
-
-
-
-
+- Minimax between i and j: there are many paths between i and j we get the maximum edge weight of each path 
+  and then take the minimum edge of all these maximum weights of each path
+- This can be done by running Kruskal's Algorithm to get the Minimum Spanning Tree then traverse from i to j to find
+  the maximum edge of the path between them
+- In the Maximini we make the Maximum Spanning Tree and then get the minimum edge in the path between i and j
 
 
