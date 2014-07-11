@@ -184,6 +184,17 @@
     power ++;
     toAdd = N / pow(p, power);
   }
+OR
+   long long get_powers(long  long N, long long p)
+   {
+       long long res = 0;
+       
+       for (long long power = p ; power <= n ; power *= p)
+           res += n/power;
+           
+       return res;
+   }
+
 
 ** Finding the GCD and LCM:
   // Ecluid's Algorithm
