@@ -1,0 +1,51 @@
+**If the graph is small < 200 nodes we can use floyd warshall to get the shortest path between any pair
+  Also we cn find minimax, maximini, print the shortest path
+
+for(int i=0; i<nodesN; i++)
+{
+  for(int j=0; j<nodesN; j++)
+  {
+    parent[i][j] = i;
+    
+    if(i == j)
+    {
+      adjMat[i][j] = 0;
+      minimax[i][j] = 0;
+    }
+    else
+    {
+      adjMat[i][j] = INF;  // which is a large number 1000000000 (10^9) for example
+      minimax[i][j] = INF;
+    }
+  }
+}
+// Then read the edges and let adjMat[i][j] = weight of edge between i and j if exists
+
+for(int k=0; k<nodesN; k++)
+{
+  for(int i=0; i<nodesN; i++)
+  {
+    for(int j=0; j<nodesN; j++)
+    {
+      if(adjMat[i][j] > adjMat[i][k] + adjMat[k][j])
+      {
+        adjMat[i][j] = adjMat[i][k] + adjMat[k][j];
+        parent[i][j] = parent[k][j];
+      }
+      minimax[i][j] = min(minimax[i][j], max(minimax[i][k], minimax[k][j]));
+    }
+  }
+}
+
+void printPath(int i, int j)
+{
+  if(i != j)
+  {
+    printPath(i, parent[i][j]);
+  }
+  printf("%d ", j);
+}
+
+**To discover negative cycles you can make another loop on i, j to find if there is any further relax operation
+  OR you can loop on the distance between i and i for all nodes and make sure that it is 0 if not then there is a -ve cycle
+  
