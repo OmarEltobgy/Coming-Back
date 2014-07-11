@@ -26,6 +26,13 @@
 - value = map[key] (map.at(key) // returns default value if there is no such key (0 for int, "" for string)
 - map[key] = value // also you can use map.at(key)
 - int = map.count(key) // 0 if there is no such key
+- To get all the entries of the map sorted
+  for (map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+  {
+    cout << it->first << " => " << it->second << '\n';
+    // Do whatever you want with it->first (key) and it->second (value) and you can store it->first in a variable of the 
+    // same data type and the same with it->second
+  }
 
 
 6) General: 
@@ -51,9 +58,28 @@
   Note that the sizeof() function returns the answer in bytes
   and we want to add the size of the array (Number of integer entries for example)
 
-** bool next_permutation(x, y) same parameters as sort(x, y) returns true when there are no more permutations
+** bool next_permutation(x, y) same parameters as sort(x, y) returns false when there are no more permutations
+  vector<int> arr;
+  sort (arr.begin(), arr.end()); // First of all sort the vector or the array [first permutation sorted]
+  do 
+  {
+    // Do whatever you want with this permutation
+  } while ( next_permutation(arr.begin(), arr.end()); //returns false when there are no more permutations
+  
+  
+** lower_bound and upper_bound: make binary search on the array or vector 
+   lower bound returns the first value which is equal greater than or equal (not less than) than the needed value
+   returns an iterator to the last element if all the entries are less than the value needed
+   binary_search method returns true if this value is found in the vector
+   
+  sort (v.begin(), v.end());                //First of all sort the vector to use binary search
+  vector<int>::iterator low,up;             //Make itertor of type vector<int>
+  low=std::lower_bound (v.begin(), v.end(), 20); 
+  up= std::upper_bound (v.begin(), v.end(), 20);
+  
 
-** whn using pow() function there is always round off error so use round(pow()) instead
+
+** when using pow() function there is always round off error so use round(pow()) instead
 
 
 8) Conversion from integer to string and viceversa:
@@ -63,7 +89,7 @@ int i = atoi (str.c_str());
 
 char charArray[] =  itoa ( int value, charArray[], int base );
 
-9) Needed Libraries:
+10) Needed Libraries:
 #include <iostream>
 #include <stdio.h>
 #include <vector>
