@@ -54,3 +54,27 @@
 ** bool next_permutation(x, y) same parameters as sort(x, y) returns true when there are no more permutations
 
 ** whn using pow() function there is always round off error so use round(pow()) instead
+
+
+8) Conversion from integer to string and viceversa:
+#include <stdlib.h>
+int i = atoi (charArr[]);
+int i = atoi (str.c_str());
+
+char charArray[] =  itoa ( int value, charArray[], int base );
+
+9) Needed Libraries:
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <string>
+#include <string.h>
+#include <stdlib.h>
+#include <map>
+#include <functional>
+#include <stack>
+#include <math.h>
+#include <iterator>
+
+using namespace std;
