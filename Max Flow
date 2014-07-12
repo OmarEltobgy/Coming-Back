@@ -129,11 +129,17 @@ int main()
     {
         cin >> first >> second >> weight;
 
-        adjList[first].push_back(second);
+        if(adjMat[first][second] == 0)
+        {
+            adjList[first].push_back(second);
+        }
         adjMat[first][second] += weight;  // We add the weights to handle if there are multiple edges between same nodes
         origianlAdjMat[first][second] += weight;
 
-        adjList[second].push_back(first);
+        if(adjMat[second][first] == 0)
+        {
+            adjList[second].push_back(first);
+        }
         adjMat[second][first] += weight;  // We add the weights to handle if there are multiple edges between same nodes
         origianlAdjMat[second][first] += weight;
     }
