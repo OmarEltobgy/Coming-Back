@@ -68,10 +68,13 @@ int augmentPath(int nowNode, int minEdgeTillNow)
     {
         int edgeWeight = adjMat[parent[nowNode]][nowNode];
         int minEdge = augmentPath(parent[nowNode], min(minEdgeTillNow, edgeWeight));
-
-        adjMat[parent[nowNode]][nowNode] -= minEdge;
-        adjMat[nowNode][parent[nowNode]] += minEdge;
-
+        
+        if(minEdge != INF)
+        {
+          adjMat[parent[nowNode]][nowNode] -= minEdge;
+          adjMat[nowNode][parent[nowNode]] += minEdge;
+        }
+        
         return minEdge;
     }
     else // No parent for this node [The Path can't reach the source)
@@ -128,18 +131,20 @@ int main()
     for(int i=0; i<edgesN; i++)
     {
         cin >> first >> second >> weight;
-
+        
         if(adjMat[first][second] == 0)
         {
             adjList[first].push_back(second);
+            
+            //Note that regardless whether the graph is directed or not we add the reverse edge in the adjList even if it has 0 weight
+            //because when we augment the path it will have weight other than 0 and we may want to use the reverse edge
+            //so we add the reverse edge in the adjList
+            adjList[second].push_back(first);
         }
         adjMat[first][second] += weight;  // We add the weights to handle if there are multiple edges between same nodes
         origianlAdjMat[first][second] += weight;
 
-        if(adjMat[second][first] == 0)
-        {
-            adjList[second].push_back(first);
-        }
+        //If the edges are undirected we also add the weight to the reverse edge
         adjMat[second][first] += weight;  // We add the weights to handle if there are multiple edges between same nodes
         origianlAdjMat[second][first] += weight;
     }
