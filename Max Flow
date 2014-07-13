@@ -181,10 +181,20 @@ int main()
 4) Maximum Independent Paths [capacity of each edge is 1 and capacity of each vertex is 1] 
 5) Maximum Edge Disjoint Paths [capacity of each edge is 1 ONLY]
 6) Min Cost Max Flow [Dijkestra on Cost instead of BFS)
-7) Getting edges of a graph given in and out degrees
-
-
-
-
-
+7) Getting edges of a graph given in and out degrees [TopCoder]
+ First, notice that we can perform this simple test at the beginning. We can compute the number M of edges by summing the out-degrees
+ or the in-degrees of the vertices. If these numbers are not equal, clearly there is no graph that could be built. This doesn't solv
+ e our problem, though. There are some greedy approaches that come to mind, but none of them work. We will combine the tricks
+ discussed above to give a max-flow algorithm that solves this problem. First, build a network that has 2 (in/out) vertices 
+ for each initial vertex. Now draw an edge from every out vertex to every in vertex. Next, add a super-source and draw an edge 
+ from it to every out-vertex. Add a super-sink and draw an edge from every in vertex to it. We now need some capacities for this
+ to be a flow network. It should be pretty obvious what the intent with this approach is, so we will assign the following capacities:
+ for each edge drawn from the super-source we assign a capacity equal to the out-degree of the vertex it points to. As there may 
+ be only one arc from a vertex to another, we assign a 1 capacity to each of the edges that go from the outs to the ins. 
+ As you can guess, the capacities of the edges that enter the super-sink will be equal to the in-degrees of the vertices.
+ If the maximum flow in this network equals M - the number of edges, we have a solution, and for each edge between the out 
+ and in vertices that has a flow along it (which is maximum 1, as the capacity is 1) we can draw an edge between corresponding 
+ vertices in our graph. Note that both x-y and y-x edges may appear in the solution. This is very similar to the maximum matching 
+ in a bipartite graph that we will discuss later. An example is given below where the out-degrees are (2, 1, 1, 1) 
+ and the in-degrees (1, 2, 1, 1). 
 
