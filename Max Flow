@@ -150,6 +150,41 @@ int main()
     }
 
     long long maxFlow = solveMaxFlow();
+    
+    // To get the minimum cut to disconnect the startNode and endNode into 2 disconnected components
+    // minimum cut = maximum flow
+    // edges needed to be cut are the edges from visited nodes to non non visited node after the last BFS
+    vector<ii> minCutEdges;
+    for(i=1; i<=nodesN; i++)
+	{
+		if(visited[i] == true)
+		{
+			for(j=0; j<adjList[i].size(); j++)
+			{
+				next = adjList[i][j];
+				if(visited[next] == false)
+				{
+				    minCutEdges.push_back(ii(i, j));
+				}
+			}
+		}
+	}
 
     return 0;
 }
+
+
+**Other Features: 
+1) Multi Sources and Multi Sinks [Super Source and Super Sink]
+2) Vertices with weights [InNode, OutNode]
+3) Minimum Cut
+4) Maximum Independent Paths [capacity of each edge is 1 and capacity of each vertex is 1] 
+5) Maximum Edge Disjoint Paths [capacity of each edge is 1 ONLY]
+6) Min Cost Max Flow [Dijkestra on Cost instead of BFS)
+7) Getting edges of a graph given in and out degrees
+
+
+
+
+
+
