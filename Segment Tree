@@ -1,0 +1,94 @@
+int arr[N];    // the array of values you want to work on
+int tree[4*N]; // the array representing segment tree [Its Maximum is 4*size of initial array]
+
+void build_SegmentTree(int nowNode, int rangeStart, int rangeEnd)
+{
+    if(rangeStart == rangeEnd)
+    {
+        tree[nowNode] = R[rangeStart]; //Sometimes we need the index not the value (tree[nowNode] = rangeStart);
+        return;                        //Don't Forget Return :D
+    }
+
+    int rangeMid = (rangeStart + rangeEnd) / 2;
+    build_SegmentTree(nowNode*2   , rangeStart , rangeMid); // Left Child
+    build_SegmentTree(nowNode*2+1 , rangeMid+1 , rangeEnd); // Right Child
+
+    // We make any computations we need between tree[nowNode*2] and tree[nowNode*2+1] whose values are set in the 2 previous calls
+    // to store the result we need [minimum, maximum, sum, ......] in tree[nowNode]
+    
+    tree[nowNode] = tree[nowNode*2] + tree[nowNode*2+1];
+    or
+    tree[nowNode] = max(tree[nowNode*2], tree[nowNode*2+1]);
+}
+
+int get(int nowNode, int rangeStart, int rangeEnd, int S, int E)
+{
+    if(S > E || rangeStart > rangeEnd || S > rangeEnd || E < rangeStart) // The range is outside the interval we want to search in
+    {
+        return -1; // Any Sentinel Value [if we compute sum we can return 0]
+                                         [if we compute minimum we can return INF]
+                                         [if we compute maximum we can return -INF]
+                                         in order not to affect the computations with the other node
+    }
+
+    if(rangeStart >= S && rangeEnd <= E) // The range is completely inside the interval we want to search in
+    {
+        return tree[nowNode];
+    }
+
+    int rangeMid = (rangeStart+rangeEnd)/2;
+    int leftReturn  = get(nowNode*2    , rangeStart  , rangeMid, S, E); // Left Child
+    int rightReturn = get(nowNode*2+1  , rangeMid+1  , rangeEnd, S, E); // Right Child
+    
+    // Note that this doesn't affect at all tree[nowNode] and we use the returned value not tree[nowNode*2] and tree[nowNode*2+1]
+    // We may not use the comparison with the sentinel value if the sentinel value will not affect the computation 
+    
+    if(leftReturn == -1 && rightReturn == -1) return -1;
+    else if (leftReturn == -1) return rightReturn;
+    else if (rightReturn == -1) return leftReturn;
+    else // return the computation you need between 2 completely intervals inside your interval
+    {
+        return leftReturn + rightReturn;
+        or
+        return max(leftReturn, rightReturn);
+        
+        // Note that this is the same computation that we made in the building 
+        // but between the returned values (leftReturn, rightReturn) not  (tree[nowNode*2] and tree[nowNode*2+1])
+        // also we return the value here in contrast with the build an update there is no value return as it is stored in tree[nowNode]
+    }
+}
+
+void update(int nowNode, int rangeStart, int rangeEnd, int index, int newValue)
+{
+    if(index < rangeStart || index > rangeEnd) // a range not containing index so there isn't any modifications so we will return
+    {
+        return; //Don't Forget Return :D
+    }
+
+    if(rangeStart == index && rangeEnd == index) // this is the range of [index, index] so we will modify tree[nowNode] and return
+    {
+        tree[nowNode] = newValue;
+        return; //Don't Forget Return :D
+    }
+
+    int rangeMid = (rangeStart+rangeEnd)/2;
+    update(nowNode*2   , rangeStart  , rangeMid, index, newValue, oldValue); // Left Child
+    update(nowNode*2+1 , rangeMid+1  , rangeEnd, index, newValue, oldValue); // Right Child
+
+    // We make any computations we need between tree[nowNode*2] and tree[nowNode*2+1] whose values are updated in the 2 previous calls
+    // to update the result we need [minimum, maximum, sum, ......] in tree[nowNode]
+    
+    tree[nowNode] = tree[nowNode*2] + tree[nowNode*2+1];
+    or
+    tree[nowNode] = max(tree[nowNode*2], tree[nowNode*2+1]);
+    
+    // Note that this is the same computation that we made in the building
+}
+
+
+
+
+
+
+
+
