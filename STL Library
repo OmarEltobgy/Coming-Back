@@ -48,7 +48,7 @@
 - gets(char Array): reads a character array till \n 
 - getLine(cin, str): reads a string till \n
 ** Note that if there is a line before getline() it will read an empty line representaing the remaining of this line
-   so you should place 2 getLine() statements to avoid this case
+   so you should place 2 getLine() statements to avoid this case or you can use cin.ignore() which reads th remaining '\n'
 - cin >> str: reads a string til space ' '
 
 ** Sorting:
