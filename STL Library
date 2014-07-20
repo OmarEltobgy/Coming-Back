@@ -34,6 +34,11 @@
     // same data type and the same with it->second
   }
 
+6) List (Linked List): List<int> myList;
+- myList.remove(int value);
+- for (list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+    std::cout << ' ' << *it;
+
 
 6) General: 
 - for(it=x.begin; it<x.end; it++) int i = (int)it;
