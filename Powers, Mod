@@ -83,6 +83,85 @@
 - There are infinite number of solutions for x and y (by changing n)
   x = x + (b/d)*n              y = y - (a/d)*n
 - by these 2 rules we can solve this equation ax + by = z given a,b and the required is x,y
+  
+**Solving (a0x0 + a1x1 +…+ anxn ≡c (mod m)) for positive a's
+  plll extEcluid(ll a, ll b)
+  {
+      ll gcd, x, y, _x, _y;
+  
+      if(b == 0)
+      {
+          gcd = a;
+          x = 1;
+          y = 0;
+  
+          return plll(gcd, pll(x, y));
+      }
+      plll ret = extEcluid(b, a%b);
+  
+      gcd = ret.first;
+      _x = ret.second.first;
+      _y = ret.second.second;
+  
+      x = _y;
+      y = _x - (a/b) * _y;
+  
+      return plll(gcd, pll(x, y));
+  }
+  
+  ll solve(ll firstTermValue, int secondTermIndex)
+  {
+      ll gcd, x, y, times;
+      ll a, b, toMul;
+      plll returned;
+  
+      if(secondTermIndex == N)
+      {
+          a = firstTermValue;
+          b = M;
+  
+          returned = extEcluid(a, b);
+  
+          gcd = returned.first;
+          x = returned.second.first;
+          y = returned.second.second;
+  
+          if(B % gcd != 0)
+          {
+              yes = false;
+  
+              return -1; // any value
+          }
+          else
+          {
+              times = B / gcd;
+              x = x * times;
+              y = y * times;
+  
+              return (x % M + M) % M;
+          }
+      }
+  
+      a = firstTermValue;
+      b = numbers[secondTermIndex];
+      returned = extEcluid(a, b);
+  
+      gcd = returned.first;
+      x = returned.second.first;
+      y = returned.second.second;
+  
+      toMul = solve(gcd, secondTermIndex+1);
+  
+      y = y * toMul;
+      x = x * toMul;
+  
+      result[secondTermIndex] = (y % M + M) % M;
+  
+      return (x % M + M) % M;
+  }
+
+
+
 
 **Fermat's Theorem:
   if p is a prime number and a is relativley prime to p then (a^(p-1)) % p = 1
