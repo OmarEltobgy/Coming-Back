@@ -1,0 +1,59 @@
+bool swapPivot(int rowN)
+{
+    double temp;
+    for(int i=rowN+1; i<=N; i++) // N -> number of rows
+    {
+        if(augMat[i][rowN] != 0)
+        {
+            for(int j=rowN; j<=N+1; j++) // N+1 -> number of columns
+            {
+                temp = augMat[rowN][j];
+                augMat[i][j] = temp;
+                augMat[rowN][j] = augMat[i][j];
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+void gauss_Elimination()
+{
+    int dependentN = 0;
+
+    // Forward Substitution
+    for(int i=1; i<=N; i++) // N -> number of rows
+    {
+        if(augMat[i][i] == 0)
+        {
+            if(swapPivot(i) == false)
+            {
+                dependentN ++;
+                continue;
+            }
+        }
+
+        for(int j=i+1; j<=N; j++) // N -> number of rows
+        {
+            double pivot = augMat[j][i] / augMat[i][i];
+
+            for(int k=i; k<=N+1; k++) // N+1 -> number of columns
+            {
+                augMat[j][k] -= pivot*augMat[i][k];
+            }
+        }
+    }
+
+    // Backward Substitution
+    for(int i=N; i>=1; i--) // N -> number of rows
+    {
+        result[i] = augMat[i][N+1];
+
+        for(int j=N; j>i; j--) // N -> number of columns without last one
+        {
+            result[i] -= result[j]*augMat[i][j];
+        }
+
+        result[i] /= augMat[i][i];
+    }
+}
