@@ -76,7 +76,7 @@ result.clear();
 augMat.clear();
 
 augMat.resize(rowN);
-result.resize(colN);
+result.resize(rowN);
 
 for(i=0; i<rowN; i++)
 {
