@@ -1,15 +1,19 @@
-bool swapPivot(int rowN)
+vector<vector<double> > augMat; // the last column is the resulting matrix
+vector<double> result;
+long long inDependentN = 0;
+
+bool swapPivot(int startRow, int columnIncrement)
 {
     double temp;
-    for(int i=rowN+1; i<=N; i++) // N -> number of rows
+    for(int i=startRow+1; i<rowN; i++)
     {
-        if(augMat[i][rowN] != 0)
+        if(augMat[i][startRow+columnIncrement] != 0)
         {
-            for(int j=rowN; j<=N+1; j++) // N+1 -> number of columns
+            for(int j=startRow+columnIncrement; j<colN; j++)
             {
-                temp = augMat[rowN][j];
+                temp = augMat[startRow][j];
+                augMat[startRow][j] = augMat[i][j];
                 augMat[i][j] = temp;
-                augMat[rowN][j] = augMat[i][j];
             }
             return true;
         }
@@ -19,37 +23,46 @@ bool swapPivot(int rowN)
 
 void gauss_Elimination()
 {
-    int dependentN = 0;
+    inDependentN = 0;
+    int columnIncrement = 0; // this is also the number of dependent equations
 
     // Forward Substitution
-    for(int i=1; i<=N; i++) // N -> number of rows
+    for(int i=0; i<rowN; i++)
     {
-        if(augMat[i][i] == 0)
+        if(i+columnIncrement >= colN-1) // we don't need last column (colN-1) because we don't need the augmented matrix column
         {
-            if(swapPivot(i) == false)
+            break; // the end no more independent equations to explore
+        }
+
+        if(augMat[i][i+columnIncrement] == 0)
+        {
+            if(swapPivot(i, columnIncrement) == false)
             {
-                dependentN ++;
+                columnIncrement ++; // increase column increment
+                i--;                // decrease row because in the for loop we increase it again to remain in the same row only change the column
                 continue;
             }
         }
 
-        for(int j=i+1; j<=N; j++) // N -> number of rows
-        {
-            double pivot = augMat[j][i] / augMat[i][i];
+        inDependentN++;
 
-            for(int k=i; k<=N+1; k++) // N+1 -> number of columns
+        for(int j=i+1; j<rowN; j++)
+        {
+            int pivot = augMat[j][i+columnIncrement] / augMat[i][i+columnIncrement]; // we don't need to make modular multiplicative inverse as augMat[i][i] must = 1
+                // Also we can use here the inverse modular arithmetic for the denominator if we want answer % a number
+            for(int k=i+columnIncrement; k<colN; k++)
             {
-                augMat[j][k] -= pivot*augMat[i][k];
+                augMat[j][k] = (augMat[j][k] - (pivot*augMat[i][k])%2) % 2;
             }
         }
     }
 
     // Backward Substitution
-    for(int i=N; i>=1; i--) // N -> number of rows
+    for(int i=rowN-1; i>=0; i--)
     {
-        result[i] = augMat[i][N+1];
+        result[i] = augMat[i][rowN]; // rowN column is the resulting matrix column
 
-        for(int j=N; j>i; j--) // N -> number of columns without last one
+        for(int j=colN-2; j>i; j--) // colN-1 is the number of columns without last column
         {
             result[i] -= result[j]*augMat[i][j];
         }
@@ -57,3 +70,27 @@ void gauss_Elimination()
         result[i] /= augMat[i][i];
     }
 }
+
+// Initialization of augMat and result
+result.clear();
+augMat.clear();
+
+augMat.resize(rowN);
+result.resize(colN);
+
+for(i=0; i<rowN; i++)
+{
+    augMat[i].resize(colN);
+
+    for(int j=0; j<colN-1; j++) // loops to set all the matrix except the last column of the resulting matrix
+    {
+        // Set augMat[i][j]
+    }
+
+    // Set augMat[i][colN-1] = 0; //which is the column of the resulting matrix
+}
+
+// then sets any initial and final states if they exist and have other values
+
+
+
