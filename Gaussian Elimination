@@ -1,6 +1,7 @@
 vector<vector<double> > augMat; // the last column is the resulting matrix
 vector<double> result;
 long long inDependentN = 0;
+int rowN, colN;
 
 bool swapPivot(int startRow, int columnIncrement)
 {
@@ -52,7 +53,7 @@ void gauss_Elimination()
                 // Also we can use here the inverse modular arithmetic for the denominator if we want answer % a number
             for(int k=i+columnIncrement; k<colN; k++)
             {
-                augMat[j][k] = (augMat[j][k] - (pivot*augMat[i][k])%2) % 2;
+                augMat[j][k] -= - pivot*augMat[i][k]; // we can take mod here also 
             }
         }
     }
