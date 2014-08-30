@@ -192,7 +192,7 @@ int main()
  for each edge drawn from the super-source we assign a capacity equal to the out-degree of the vertex it points to. As there may 
  be only one arc from a vertex to another, we assign a 1 capacity to each of the edges that go from the outs to the ins. 
  As you can guess, the capacities of the edges that enter the super-sink will be equal to the in-degrees of the vertices.
- If the maximum flow in this network equals M - the number of edges, we have a solution, and for each edge between the out 
+ If the maximum flow in this network equals M or (the number of edges), we have a solution, and for each edge between the out 
  and in vertices that has a flow along it (which is maximum 1, as the capacity is 1) we can draw an edge between corresponding 
  vertices in our graph. Note that both x-y and y-x edges may appear in the solution. This is very similar to the maximum matching 
  in a bipartite graph that we will discuss later. An example is given below where the out-degrees are (2, 1, 1, 1) 
