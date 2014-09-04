@@ -34,7 +34,7 @@ void bfs() // we know the startNode and endNode [global variables]
     while(q.empty() == false)
     {
         int nowNode = q.front();
-        q.pop();
+        q.pop(); // Don't Forget Please :D 
 
         if(nowNode == endNode)
         {
