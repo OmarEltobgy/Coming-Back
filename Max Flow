@@ -164,7 +164,7 @@ int main()
 				next = adjList[i][j];
 				if(visited[next] == false)
 				{
-				    minCutEdges.push_back(ii(i, j));
+				    minCutEdges.push_back(ii(i, next));
 				}
 			}
 		}
