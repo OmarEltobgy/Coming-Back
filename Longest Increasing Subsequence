@@ -1,0 +1,115 @@
+**The dynamic programming solution which takes n^2 time
+
+int solve(int nowIndex)
+{
+    int result = 1;
+
+    if(nowIndex == arrSize)
+    {
+        return 0;
+    }
+
+    if(dp[nowIndex] != -1)
+    {
+        return dp[nowIndex];
+    }
+
+    for(int i=nowIndex+1; i<arrSize; i++)
+    {
+        if(arr[i] > arr[nowIndex])
+        {
+            int take = 1+solve(i);
+            if(take >= result)
+            {
+                result = take;
+                next[nowIndex] = i;
+            }
+        }
+    }
+
+    return dp[nowIndex] = result;
+}
+
+
+
+
+**Binary Search Solution which take nlogk time: 
+
+// first of all we push back the index 0 which is the smallest increasing subsequence that we could have
+lastIndexForEachLength.push_back(0);
+
+// for each index we search for the first value that is greater than me in the lastIndexForEachLength array
+// and we replace it by this index value
+// note that this value can be the value after the last longest length we have found therefore we are increasing the longest sequence we can find
+for(int i=1; i<arrSize; i++)
+{
+    // we are sure that this value longestLength is not 0
+    int longestLength = (int)lastIndexForEachLength.size();
+
+    // it will be >= if we want the longest non decreasing subsequence
+    // also it will be < for the longest decreasing subsequence
+    if(arr[i] > arr[lastIndexForEachLength[longestLength-1]]) // we are sure that this value longestLength is not 0
+    {
+        lastIndexForEachLength.push_back(i);
+        parent[i] = lastIndexForEachLength[longestLength-1];
+        continue;
+    }
+
+    // Binary Search to find the first value which is atLeast equal me to change it
+    // if we want the longest non decreasing subsequence then we will find the first value which is bigger than me to change it
+    // I will keep the value equal to me not changed so we will have two consecutive or more values equal to each other
+    // if we want the longest decreasing we will find the first value at most equal to me to change it
+    int first = 0;
+    int last = longestLength-1;
+    int mid;
+    int atLeast = arr[i];
+
+    while(first <= last)
+    {
+        mid = (first+last)/2;
+
+        if(first == last)
+        {
+            break;
+        }
+
+        if(arr[lastIndexForEachLength[mid]] >= atLeast)
+        {
+            last = mid;
+        }
+        else
+        {
+            first = mid+1;
+        }
+    }
+
+    lastIndexForEachLength[mid] = i;
+
+    if(mid != 0)
+    {
+        parent[i] = lastIndexForEachLength[mid-1];
+    }
+}
+
+int longestLength = (int)lastIndexForEachLength.size();
+
+cout << longestLength << endl;
+cout << "-" << endl;
+
+int nowIndex = lastIndexForEachLength[longestLength-1];
+while(nowIndex != -1)
+{
+    LIS.push_back(arr[nowIndex]); // this sequence is reversed
+    nowIndex = parent[nowIndex];
+}
+
+for(int i=0; i<(int)LIS.size(); i++)
+{
+    // this sequence is reversed
+    cout << LIS[(int)LIS.size()-1-i] << endl;
+}
+
+
+
+
+**Data structures (BIT or Segment Tree) solution which takes nlogn time:
