@@ -56,6 +56,10 @@
    so you should place 2 getLine() statements to avoid this case or you can use cin.ignore() which reads th remaining '\n'
 - cin >> str: reads a string til space ' '
 
+** Changing to upper/lower case:
+- string temp;
+  transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+
 ** Sorting:
 - sort(myvector.begin(), myvector.end(), myCompFunction) 
   bool myCompFunction(int first, int second)
@@ -109,3 +113,7 @@ char charArray[] =  itoa ( int value, charArray[], int base );
 #include <iterator>
 
 using namespace std;
+
+11) Reading from file:
+freopen ("myfile.txt","w",stdout);
+fclose (stdout);
