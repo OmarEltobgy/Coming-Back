@@ -111,8 +111,19 @@ char charArray[] =  itoa ( int value, charArray[], int base );
 #include <stack>
 #include <math.h>
 #include <iterator>
+#include <algorithm>
 
 using namespace std;
+
+typedef pair<int, int> ii;
+typedef pair<int, ii> iii;
+
+int main()
+{
+    //freopen ("myfile.txt","w",stdout);
+    
+    return 0;
+}
 
 11) Reading from file:
 freopen ("myfile.txt","w",stdout);
