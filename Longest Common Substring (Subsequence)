@@ -1,0 +1,26 @@
+**Dynamic Programming Solution O(n^2):
+int solve(int xi, yi)
+{
+  if(xi == x.length() || yi == y.length()
+  {
+    return 0;
+  }
+  
+  int res=0;
+  if(x[xi] == y[yi])
+  {
+    res = min(res, 1+solve(xi+1, yi+1));
+  }
+  
+  res = min(res, solve(xi, yi+1));
+  res = min(res, solve(xi+1, yi));
+  
+  return res;
+}
+
+
+**Tries Solution:
+
+
+
+**String Matching Solution
