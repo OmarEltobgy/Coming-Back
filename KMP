@@ -1,6 +1,6 @@
 ** KMP:
 
-int fail[100]; // the longest prefix that is also a proper suffix of the string from 0 to i
+int fail[1000000]; // the longest prefix that is also a proper suffix of the string from 0 to i
                // also this means that if we fail to match the character i what is the largest number of matched characters
                // which is smaller than current matched characters to try to add this character to
                // also it means what is the next largest character that we could match which is smaller than i
