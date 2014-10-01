@@ -59,15 +59,29 @@
 ** Changing to upper/lower case:
 - string temp;
   transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+  
+** finding a string in another string
+int pos = str.find(toFind) -> finds the first index of the first occurence of (toFind) in str and if it doesn't find it, it return string::npos (-1)
+int pos = str.find(toFind, indexToStart) -> starts searching from indexToStart (0 based)
 
-** Sorting:
+** replace a portion of a string with another string
+str.replace(indexToStart, lengthToChange, otherString)
+// Using positions:            0123456789*123456789*12345
+string str=base;           // "this is a test string."
+str.replace(9,5,str2);     // "this is an example string."
+
+** substring:
+newStr = str.substr(int startPos); -> gets substring from startPos to the end
+newStr = str.substr(int startPos, int length)
+
+8) Sorting:
 - sort(myvector.begin(), myvector.end(), myCompFunction) 
   bool myCompFunction(int first, int second)
 - sort( array, array + sizeof(array)/sizeof(array[0]) ); // or arra + size
   Note that the sizeof() function returns the answer in bytes
   and we want to add the size of the array (Number of integer entries for example)
 
-** bool next_permutation(x, y) same parameters as sort(x, y) returns false when there are no more permutations
+9) bool next_permutation(x, y) same parameters as sort(x, y) returns false when there are no more permutations
   vector<int> arr;
   sort (arr.begin(), arr.end()); // First of all sort the vector or the array [first permutation sorted]
   do 
@@ -76,7 +90,7 @@
   } while ( next_permutation(arr.begin(), arr.end()); //returns false when there are no more permutations
   
   
-** lower_bound and upper_bound: make binary search on the array or vector 
+10) lower_bound and upper_bound: make binary search on the array or vector 
    lower bound returns the first value which is equal greater than or equal (not less than) than the needed value
    returns an iterator to the last element if all the entries are less than the value needed
    binary_search method returns true if this value is found in the vector
@@ -88,17 +102,17 @@
   
 
 
-** when using pow() function there is always round off error so use round(pow()) instead
+11) when using pow() function there is always round off error so use round(pow()) instead
 
 
-8) Conversion from integer to string and viceversa:
+12) Conversion from integer to string and viceversa:
 #include <stdlib.h>
 int i = atoi (charArr[]);
 int i = atoi (str.c_str());
 
 char charArray[] =  itoa ( int value, charArray[], int base );
 
-10) Needed Libraries:
+13) Needed Libraries:
 #include <iostream>
 #include <stdio.h>
 #include <vector>
