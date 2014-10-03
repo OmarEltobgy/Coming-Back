@@ -112,6 +112,21 @@ int i = atoi (str.c_str());
 
 char charArray[] =  itoa ( int value, charArray[], int base );
 
+13) Generate Random numbers:
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+
+int main ()
+{
+  /* initialize random seed: */
+  srand (time(NULL));
+
+  /* generate secret number between 1 and N: */
+  int random = rand() % N + 1;
+}
+
+
 13) Needed Libraries:
 #include <iostream>
 #include <stdio.h>
