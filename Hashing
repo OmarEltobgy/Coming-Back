@@ -1,0 +1,84 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <string>
+#include <string.h>
+#include <stdlib.h>
+#include <map>
+#include <functional>
+#include <stack>
+#include <math.h>
+#include <iterator>
+#include <algorithm>
+#include <time.h>
+
+using namespace std;
+
+typedef pair<int, int> ii;
+
+vector<ii> hash;
+vector<int> value;
+
+int smallPrimes[40] =
+{ 727, 733, 739, 743, 751, 757, 761, 769
+, 773, 787, 797, 809, 811, 821, 823, 827
+, 829, 839, 853, 857, 859, 863, 877, 881
+, 883, 887, 907, 911, 919, 929, 937, 941
+, 947, 953, 967, 971, 977, 983, 991, 997};
+
+int largePrimes[40] =
+{ 10000609, 10000643, 10000651, 10000657, 10000667, 10000687, 10000691, 10000721
+, 10000723, 10000733, 10000741, 10000747, 10000759, 10000763, 10000769, 10000789
+, 10000799, 10000813, 10000819, 10000831, 10000849, 10000867, 10000871, 10000873
+, 10000877, 10000891, 10000931, 10000943, 10000961, 10000967, 10000987, 10000993
+, 10001009, 10001053, 10001081, 10001093, 10001107, 10001119, 10001203, 10001207};
+
+int main()
+{
+    // we will use polynomial hashing (v[0]*b^n + v[1]*b^(n-1) + v[2]*b^(n-2) + ..... + v[n-1]*b^1 + v[n])
+    // v[i] is the value of the character i (we may use the ASCII value of characters or the integer value of numbers
+    // or it is better to assign for each character another value by using int array and start by filling
+    // v[0] by a prime number then calculate v[i] = prime*v[i-1] since we use a prime then this will span all the
+    // range of the int and since this range is too large (2^64 = 10^18) so each character will have
+    // a unique value in a big range (10^18) note that this value might be negative so you must handle negative
+    // values while calculating the hash (x%m + m)%m
+
+    // however when we calculate the polynomial hash we keep getting mod a large prime number for adjusting
+    // the hashing function to a specific range [0 to mod-1]
+
+    srand(time(NULL));
+
+    int valueBase = smallPrimes[rand()%40];
+    int base1 = smallPrimes[rand()%40];
+    int mod1 = largePrimes[rand()%40];
+    int base2 = smallPrimes[rand()%40];
+    int mod2 = largePrimes[rand()%40];
+
+    value.resize(maxValue);
+    hash.resize(maxN);
+
+    value[0] = valueBase;
+    for(int i=1; i<=maxValue; i++)
+    {
+        value[i] = value[i-1] * valueBase;
+    }
+    
+    vector<vector<int> > toBeHashed; // contain elements to Be hashed
+    
+    for(int i=0; i<(int)toBeHashed.size(); i++)
+    {
+        hash[i] = ii(0, 0);
+        
+        for(int j=0; j<(int)toBeHashed[i].size(); j++)
+        {
+            int f = hash[i].first;
+            int s = hash[i].second;
+
+            f = (((f%mod1 * base1%mod1)%mod1 + ((value[adjList[i][j]])%mod1 + mod1)%mod1) % mod1);
+            s = (((s%mod2 * base2%mod2)%mod2 + ((value[adjList[i][j]])%mod2 + mod2)%mod2) % mod2);
+
+            hash[i] = ii(f, s);
+        }
+    }
+}
