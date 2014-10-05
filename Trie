@@ -1,17 +1,33 @@
-#define alphabetSize 30
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <string>
+#include <string.h>
+#include <stdlib.h>
+#include <map>
+#include <functional>
+#include <stack>
+#include <math.h>
+#include <iterator>
+#include <time.h>
+#include <algorithm>
+
+using namespace std;
+
+#define alphabetSize 26
 
 class Node
 {
 public:
-    int prefixN;
-    int wordsN;
+    int wordsN, prefixN;
+    //bool endWord;
     Node* children[alphabetSize]; // size of the alphabet
 
     Node()
     {
-        prefixN = 0;
         wordsN = 0;
-
+        prefixN = 0;
         for(int i=0; i<alphabetSize; i++)
         {
             children[i] = NULL;
@@ -19,57 +35,88 @@ public:
     }
 };
 
-bool insertWord(string word, int nowIndex, Node* nowNode) // returns true if this word is newWord
+void insertWord(string word, Node* nowNode) // returns true if this word is newWord
 {
-    nowNode->prefixN++;
-
-    if(nowIndex == (int)word.size())
+    for(int i=0; i<(int)word.size(); i++)
     {
-        nowNode->wordsN++;
+        nowNode->prefixN++;
 
-        if(nowNode->wordsN == 1)
-            return true;
+        char nowChar = word[i];
+        int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+        Node* nextCharNode = nowNode->children[nowCharIndex];
+
+        if(nextCharNode != NULL)
+        {
+            nowNode = nextCharNode;
+        }
         else
-            return false;
+        {
+            nextCharNode = new Node();
+            nowNode->children[nowCharIndex] = nextCharNode;
+
+            nowNode = nextCharNode;
+        }
     }
 
-    char nowChar = word[nowIndex];
-    int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
-    Node* nowCharNode = nowNode->children[nowCharIndex];
-
-    if(nowCharNode != NULL)
-    {
-        return insertWord(word, nowIndex+1, nowCharNode);
-    }
-    else
-    {
-        nowCharNode = new Node();
-
-        nowNode->children[nowCharIndex] = nowCharNode;
-
-        return insertWord(word, nowIndex+1, nowCharNode);
-    }
+    nowNode->wordsN++;
+    //nowNode->endWord = true;
 }
 
-
-// we can also find the number of prefixes by using prefixN
-int findWord(string word, int nowIndex, Node* nowNode)
+// We can also count the prefixes by returning prefixN instead of wordsN
+int findWord(string word, Node* nowNode)
 {
-    if(nowIndex == (int)word.size())
+    for(int i=0; i<(int)word.size(); i++)
     {
-        return nowNode->wordsN;
+        char nowChar = word[i];
+        int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+        Node* nextCharNode = nowNode->children[nowCharIndex];
+
+        if(nextCharNode != NULL)
+        {
+            nowNode = nextCharNode;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
-    char nowChar = word[nowIndex];
-    int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
-    Node* nowCharNode = nowNode->children[nowCharIndex];
+    return nowNode->wordsN;
+    //return nowNode->endWord;
+}
 
-    if(nowCharNode != NULL)
+void removeWord(string word, Node* nowNode)
+{
+    for(int i=0; i<(int)word.size(); i++)
     {
-        return findWord(word, nowIndex+1, nowCharNode);
+        nowNode->prefixN--;
+
+        char nowChar = word[i];
+        int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+        Node* nextCharNode = nowNode->children[nowCharIndex];
+
+        if(nextCharNode != NULL)
+        {
+            nowNode = nextCharNode;
+        }
+        else
+        {
+            return;
+        }
     }
-    else
-    {
-        return 0;
-    }
+
+    nowNode->wordsN--;
+}
+
+int main()
+{
+    Node* root = new Node();
+
+    insertWord("ABC", root);
+    insertWord("ABC", root);
+
+    cout << findWord("AB", root) << endl;
+    cout << findWord("ABC", root) << endl;
+
+    return 0;
 }
