@@ -1,0 +1,75 @@
+#define alphabetSize 30
+
+class Node
+{
+public:
+    int prefixN;
+    int wordsN;
+    Node* children[alphabetSize]; // size of the alphabet
+
+    Node()
+    {
+        prefixN = 0;
+        wordsN = 0;
+
+        for(int i=0; i<alphabetSize; i++)
+        {
+            children[i] = NULL;
+        }
+    }
+};
+
+bool insertWord(string word, int nowIndex, Node* nowNode) // returns true if this word is newWord
+{
+    nowNode->prefixN++;
+
+    if(nowIndex == (int)word.size())
+    {
+        nowNode->wordsN++;
+
+        if(nowNode->wordsN == 1)
+            return true;
+        else
+            return false;
+    }
+
+    char nowChar = word[nowIndex];
+    int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+    Node* nowCharNode = nowNode->children[nowCharIndex];
+
+    if(nowCharNode != NULL)
+    {
+        return insertWord(word, nowIndex+1, nowCharNode);
+    }
+    else
+    {
+        nowCharNode = new Node();
+
+        nowNode->children[nowCharIndex] = nowCharNode;
+
+        return insertWord(word, nowIndex+1, nowCharNode);
+    }
+}
+
+
+// we can also find the number of prefixes by using prefixN
+int findWord(string word, int nowIndex, Node* nowNode)
+{
+    if(nowIndex == (int)word.size())
+    {
+        return nowNode->wordsN;
+    }
+
+    char nowChar = word[nowIndex];
+    int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+    Node* nowCharNode = nowNode->children[nowCharIndex];
+
+    if(nowCharNode != NULL)
+    {
+        return findWord(word, nowIndex+1, nowCharNode);
+    }
+    else
+    {
+        return 0;
+    }
+}
