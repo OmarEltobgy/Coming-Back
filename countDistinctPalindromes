@@ -1,0 +1,146 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <string>
+#include <string.h>
+#include <stdlib.h>
+#include <map>
+#include <functional>
+#include <stack>
+#include <math.h>
+#include <iterator>
+#include <time.h>
+#include <algorithm>
+
+using namespace std;
+
+#define alphabetSize 26
+
+class Node
+{
+public:
+    Node* children[alphabetSize]; // size of the alphabet
+
+    Node()
+    {
+        for(int i=0; i<alphabetSize; i++)
+        {
+            children[i] = NULL;
+        }
+    }
+};
+
+int insertWord(string word, Node* nowNode) // returns true if this word is newWord
+{
+    int counter = 0;
+
+    for(int i=0; i<(int)word.size(); i++)
+    {
+        char nowChar = word[i];
+        int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+        Node* nextCharNode = nowNode->children[nowCharIndex];
+
+        if(nextCharNode != NULL)
+        {
+            nowNode = nextCharNode;
+        }
+        else
+        {
+            counter++;
+
+            nextCharNode = new Node();
+            nowNode->children[nowCharIndex] = nextCharNode;
+
+            nowNode = nextCharNode;
+        }
+    }
+
+    return counter;
+}
+
+int findWord(string word, Node* nowNode)
+{
+    for(int i=0; i<(int)word.size(); i++)
+    {
+        char nowChar = word[i];
+        int nowCharIndex = nowChar - 'A'; // also we can use a map for the alphabet used characters
+        Node* nextCharNode = nowNode->children[nowCharIndex];
+
+        if(nextCharNode != NULL)
+        {
+            nowNode = nextCharNode;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main()
+{
+    freopen("palindromes.in", "r", stdin);
+    freopen("palindromes.out", "w", stdout);
+
+    Node* rootEven = new Node();
+    Node* rootOdd = new Node();
+    string str;
+    long long res = 0;
+
+    cin >> str;
+
+    // Odd Palindromes
+    for(int i=0; i<(int)str.size(); i++)
+    {
+        string palindrome = "";
+
+        int left = i;
+        int right = i;
+
+        while(left >= 0 && right < (int)str.size())
+        {
+            if(str[left] != str[right])
+            {
+                break;
+            }
+
+            palindrome += str[right];
+
+            left--;
+            right++;
+        }
+
+        res += insertWord(palindrome, rootOdd);
+    }
+
+    // Even Palindromes
+    for(int i=0; i<(int)str.size(); i++)
+    {
+        string palindrome = "";
+
+        int left = i-1;
+        int right = i;
+
+        while(left >= 0 && right < (int)str.size())
+        {
+            if(str[left] != str[right])
+            {
+                break;
+            }
+
+            palindrome += str[right];
+
+            left--;
+            right++;
+        }
+
+        res += insertWord(palindrome, rootEven);
+    }
+
+    cout << res << endl;
+
+    return 0;
+}
