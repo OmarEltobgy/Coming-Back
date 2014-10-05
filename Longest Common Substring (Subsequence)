@@ -1,3 +1,5 @@
+----Longest Common Subsequence:
+
 **Dynamic Programming Solution O(n^2):
 int solve(int xi, yi)
 {
@@ -18,9 +20,148 @@ int solve(int xi, yi)
   return res;
 }
 
+----Longest Common Substring: (the characters must be adjacent);
+**Dp Solution:
+--------------
+for(int i=0; i<(int)first.size(); i++)
+{
+    for(int j=0; j<(int)second.size(); j++)
+    {
+        if(first[i] == second[j])
+        {
+            if(i-1>=0 && j-1>=0) // very important condition
+            {
+                dp[i][j] = 1 + dp[i-1][j-1];
+            }
+            else
+            {
+                dp[i][j] = 1;
+            }
+
+            if(dp[i][j] > maxi)
+            {
+                res.clear();
+                res.push_back(i);
+
+                maxi = dp[i][j];
+            }
+            else if(dp[i][j] == maxi)
+            {
+                res.push_back(i);
+            }
+        }
+        else
+        {
+            dp[i][j] = 0;
+        }
+    }
+}
+
+**String Matching Solution:
+---------------------------
+vector<int> makeFail(string str)
+{
+    vector<int> fail;
+    fail.resize(str.size());
+    fail[0] = 0;
+
+    for(int i=1; i<(int)str.size(); i++)
+    {
+        int matched = fail[i-1];
+
+        while(matched != 0 && str[i] != str[matched])
+        {
+            matched = fail[matched-1];
+        }
+
+        if(str[i] == str[matched])
+        {
+            matched++;
+        }
+
+        fail[i] = matched;
+    }
+
+    return fail;
+}
+
+void match(string str, string pattern, vector<int> fail)
+{
+    int matched = 0;
+
+    for(int i=0; i<(int)str.size(); i++)
+    {
+        while(matched != 0 && str[i] != pattern[matched])
+        {
+            matched = fail[matched-1];
+        }
+
+        if(str[i] == pattern[matched])
+        {
+            matched++;
+        }
+
+        if(matched > maxi)
+        {
+            maxi = matched;
+
+            res.clear();
+            res.push_back(i);
+        }
+        else if(maxi != 0 && matched == maxi)
+        {
+            res.push_back(i);
+        }
+    }
+}
+
+//Main
+maxi = 0;
+for(int i=0; i<(int)first.size(); i++)
+{
+    string temp = first.substr(i);
+
+    makeFail(temp);
+
+    match(second, temp, makeFail(temp));
+}
 
 **Tries Solution:
+-----------------
+
+
+**Printing the longest common substring:
+----------------------------------------
+vector<string> toPrint;
+map<string, int> m;
+
+for(int k=0; k<(int)res.size(); k++)
+{
+    string temp = "";
+    for(int i=res[k]-maxi+1; i<=res[k]; i++)
+    {
+        temp += first[i];
+    }
+    if(m.count(temp) == 0)
+    {
+        m[temp] = 1;
+        toPrint.push_back(temp);
+    }
+}
+
+if(toPrint.size() == 0)
+{
+    cout << "No common sequence." << endl;
+}
+else
+{
+    sort(toPrint.begin(), toPrint.end());
+
+    for(int i=0; i<(int)toPrint.size(); i++)
+    {
+        cout << toPrint[i] << endl;
+    }
+}
 
 
 
-**String Matching Solution
