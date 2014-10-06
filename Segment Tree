@@ -64,7 +64,7 @@ int query(int nowNode, int left, int right, int leftRange, int rightRange)
     }
 }
 
-void update(int nowNode, int left, int right, int index)
+void update(int nowNode, int left, int right, int index, int newValue)
 {
     pushDownLazy(nowIndex, left, right); // each index we visit we will update the lazy
 
