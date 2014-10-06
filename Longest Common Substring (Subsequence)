@@ -126,12 +126,8 @@ for(int i=0; i<(int)first.size(); i++)
     match(second, temp, makeFail(temp));
 }
 
-**Tries Solution:
------------------
-
-
-**Printing the longest common substring:
-----------------------------------------
+**Printing the longest common substring fot the previous 2 solutions:
+---------------------------------------------------------------------
 vector<string> toPrint;
 map<string, int> m;
 
@@ -160,6 +156,136 @@ else
     for(int i=0; i<(int)toPrint.size(); i++)
     {
         cout << toPrint[i] << endl;
+    }
+}
+
+
+
+
+**Tries Solution:
+-----------------
+int maxi = 0;
+map<char, int> wordMap;
+
+class Node
+{
+public:
+    Node* children[5];
+
+    Node()
+    {
+        for(int i=0; i<5; i++)
+        {
+            children[i] = NULL;
+        }
+    }
+};
+
+void insertWord(string word, Node* nowNode)
+{
+    for(int i=0; i<(int)word.size(); i++)
+    {
+        char nowChar = word[i];
+        int nowCharIndex = wordMap[nowChar];
+        Node* nextNode = nowNode->children[nowCharIndex];
+
+        if(nextNode != NULL)
+        {
+            nowNode = nextNode;
+        }
+        else
+        {
+            nextNode = new Node();
+
+            nowNode->children[nowCharIndex] = nextNode;
+
+            nowNode = nextNode;
+        }
+    }
+}
+
+string findWord(string word, Node* nowNode)
+{
+    string temp = "";
+    for(int i=0; i<(int)word.size(); i++)
+    {
+        char nowChar = word[i];
+        int nowCharIndex = wordMap[nowChar];
+        Node* nextNode = nowNode->children[nowCharIndex];
+
+        if(nextNode != NULL)
+        {
+            nowNode = nextNode;
+
+            temp += word[i];
+        }
+        else
+        {
+            return temp;
+        }
+    }
+
+    return temp;
+}
+
+int main()
+{
+    wordMap['a'] = 0;
+    wordMap['c'] = 1;
+    wordMap['g'] = 2;
+    wordMap['t'] = 3;
+
+    maxi = 0;
+
+    Node* root = new Node();
+
+    for(int i=0; i<(int)first.size(); i++)
+    {
+        string temp = first.substr(i);
+
+        insertWord(temp, root);
+    }
+
+    vector<string> toPrint;
+    map<string, int> m;
+
+    for(int i=0; i<(int)second.size(); i++)
+    {
+        string temp = second.substr(i);
+
+        string returned = findWord(temp, root);
+
+        if((int)returned.size() > maxi)
+        {
+            maxi = (int)returned.size();
+
+            toPrint.clear();
+
+            toPrint.push_back(returned);
+            m[returned] = 1;
+        }
+        else if((int)returned.size() == maxi)
+        {
+            if(returned != "" && m.count(returned) == 0)
+            {
+                m[returned] = 1;
+                toPrint.push_back(returned);
+            }
+        }
+    }
+
+    if(toPrint.size() == 0)
+    {
+        cout << "No common sequence." << endl;
+    }
+    else
+    {
+        sort(toPrint.begin(), toPrint.end());
+
+        for(int i=0; i<(int)toPrint.size(); i++)
+        {
+            cout << toPrint[i] << endl;
+        }
     }
 }
 
