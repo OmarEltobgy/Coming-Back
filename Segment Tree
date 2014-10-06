@@ -1,17 +1,21 @@
+// All the calls will be nowNode = 1 and (left, right) is either (0, N-1) -0 based- or (1, N) -1 based-
+// don't forget to memset tree and lazy with initial value (0) in the begining 
+
 int arr[N];    // the array of values you want to work on
 int tree[4*N]; // the array representing segment tree [Its Maximum is 4*size of initial array]
+int lazy[4*N]; // lazy propagation
 
-void build_SegmentTree(int nowNode, int rangeStart, int rangeEnd)
+void build_SegmentTree(int nowNode, int left, int right)
 {
-    if(rangeStart == rangeEnd)
+    if(left == right)
     {
-        tree[nowNode] = R[rangeStart]; //Sometimes we need the index not the value (tree[nowNode] = rangeStart);
-        return;                        //Don't Forget Return :D
+        tree[nowNode] = arr[left];  //Sometimes we need the index not the value (tree[nowNode] = left);
+        return;                     //Don't Forget Return :D
     }
 
-    int rangeMid = (rangeStart + rangeEnd) / 2;
-    build_SegmentTree(nowNode*2   , rangeStart , rangeMid); // Left Child
-    build_SegmentTree(nowNode*2+1 , rangeMid+1 , rangeEnd); // Right Child
+    int mid = (left + right) / 2;
+    build_SegmentTree(nowNode*2  , left , mid); // Left Child
+    build_SegmentTree(nowNode*2+1, mid+1, right); // Right Child
 
     // We make any computations we need between tree[nowNode*2] and tree[nowNode*2+1] whose values are set in the 2 previous calls
     // to store the result we need [minimum, maximum, sum, ......] in tree[nowNode]
@@ -21,9 +25,11 @@ void build_SegmentTree(int nowNode, int rangeStart, int rangeEnd)
     tree[nowNode] = max(tree[nowNode*2], tree[nowNode*2+1]);
 }
 
-int get(int nowNode, int rangeStart, int rangeEnd, int S, int E)
+int query(int nowNode, int left, int right, int leftRange, int rightRange)
 {
-    if(S > E || rangeStart > rangeEnd || S > rangeEnd || E < rangeStart) // The range is outside the interval we want to search in
+    pushDownLazy(nowIndex, left, right); // each index we visit we will update the lazy
+
+    if(left > rightRange || right < leftRange) // The range is outside the range we want to search in
     {
         return -1; // Any Sentinel Value [if we compute sum we can return 0]
                                          [if we compute minimum we can return INF]
@@ -31,19 +37,19 @@ int get(int nowNode, int rangeStart, int rangeEnd, int S, int E)
                                          in order not to affect the computations with the other node
     }
 
-    if(rangeStart >= S && rangeEnd <= E) // The range is completely inside the interval we want to search in
+    if(left >= leftRange && right <= rightRange) // The range is completely inside the range we want to search in
     {
         return tree[nowNode];
     }
 
-    int rangeMid = (rangeStart+rangeEnd)/2;
-    int leftReturn  = get(nowNode*2    , rangeStart  , rangeMid, S, E); // Left Child
-    int rightReturn = get(nowNode*2+1  , rangeMid+1  , rangeEnd, S, E); // Right Child
+    int mid = (left+right)/2;
+    int leftReturn  = query(nowNode*2  , left , mid  , leftRange, rightRange); // Left Child
+    int rightReturn = query(nowNode*2+1, mid+1, right, leftRange, rightRange); // Right Child
     
     // Note that this doesn't affect at all tree[nowNode] and we use the returned value not tree[nowNode*2] and tree[nowNode*2+1]
     // We may not use the comparison with the sentinel value if the sentinel value will not affect the computation 
     
-    if(leftReturn == -1 && rightReturn == -1) return -1;
+    if(leftReturn == -1 && rightReturn == -1) return -1; // we will never encounter this case
     else if (leftReturn == -1) return rightReturn;
     else if (rightReturn == -1) return leftReturn;
     else // return the computation you need between 2 completely intervals inside your interval
@@ -58,23 +64,25 @@ int get(int nowNode, int rangeStart, int rangeEnd, int S, int E)
     }
 }
 
-void update(int nowNode, int rangeStart, int rangeEnd, int index, int newValue)
+void update(int nowNode, int left, int right, int index)
 {
-    if(index < rangeStart || index > rangeEnd) // a range not containing index so there isn't any modifications so we will return
+    pushDownLazy(nowIndex, left, right); // each index we visit we will update the lazy
+
+    if(left > index || right < index) // a range not containing index so there isn't any modifications so we will return
     {
         return; //Don't Forget Return :D
     }
 
-    if(rangeStart == index && rangeEnd == index) // this is the range of [index, index] so we will modify tree[nowNode] and return
+    if(left == index && right == index) // this is the range of [index, index] so we will modify tree[nowNode] and return
     {
         tree[nowNode] = newValue;
         return; //Don't Forget Return :D
     }
-
-    int rangeMid = (rangeStart+rangeEnd)/2;
-    update(nowNode*2   , rangeStart  , rangeMid, index, newValue, oldValue); // Left Child
-    update(nowNode*2+1 , rangeMid+1  , rangeEnd, index, newValue, oldValue); // Right Child
-
+    
+    int mid = (left+right)/2;
+    update(nowNode*2  , left , mid  , index); // Left Child
+    update(nowNode*2+1, mid+1, right, index); // Right Child
+    
     // We make any computations we need between tree[nowNode*2] and tree[nowNode*2+1] whose values are updated in the 2 previous calls
     // to update the result we need [minimum, maximum, sum, ......] in tree[nowNode]
     
@@ -83,12 +91,38 @@ void update(int nowNode, int rangeStart, int rangeEnd, int index, int newValue)
     tree[nowNode] = max(tree[nowNode*2], tree[nowNode*2+1]);
     
     // Note that this is the same computation that we made in the building
+    // Don't forget these updates
 }
 
 
+void updateRange(int nowIndex, int left, int right, int leftRange, int rightRange, int valToAdd)
+{
+    pushDownLazy(nowIndex, left, right); // each index we visit we will update the lazy
 
+    if(left > rightRange || right < leftRange) // a range not containing index so there isn't any modifications so we will return
+    {
+        return; //Don't Forget Return :D
+    }
 
+    if(left >= leftRange && right <= rightRange)  // The range is completely inside the range we want to search in
+    {
+        // so we add the valToAd to the all the range and then push this value down to my children 
+        
+        lazy[nowIndex] += valToAdd;
 
+        pushDownLazy(nowIndex, left, right);
+
+        return;
+    }
+
+    int mid = (left+right)/2;
+
+    updateRange(nowIndex*2, left, mid, leftRange, rightRange, valToAdd);
+    updateRange(nowIndex*2+1, mid+1, right, leftRange, rightRange, valToAdd);
+
+    // This is a very important update
+    tree[nowIndex] = tree[nowIndex*2] + tree[nowIndex*2+1];
+}
 
 
 
