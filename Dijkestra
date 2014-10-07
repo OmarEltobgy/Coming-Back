@@ -1,4 +1,8 @@
-**Dijkestra Algorithm to find the Single Source shortest path if all the weights are positive
+**Dijkestra Algorithm
+---------------------
+
+
+to find the Single Source shortest path if all the weights are positive
 
 for(int i=1; i<=nodesN; i++)
 {
