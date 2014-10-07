@@ -1,18 +1,6 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <queue>
-#include <string>
-#include <string.h>
-#include <stdlib.h>
-#include <map>
-#include <functional>
-#include <stack>
-#include <math.h>
-#include <iterator>
-#include <algorithm>
+Kuhn's Algorithm for Maximum Bipartite Matching:
+------------------------------------------------
 
-using namespace std;
 
 int tilesN;
 vector<vector<int> > adjList; //for the first set of nodes
@@ -95,8 +83,6 @@ int main()
 
         printf("%d\n", maximum);
     }
-
-
 
     return 0;
 }
