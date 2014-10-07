@@ -1,3 +1,7 @@
+Longest Common Substring (Subsequence):
+--------------------------------------
+
+
 ----Longest Common Subsequence:
 
 **Dynamic Programming Solution O(n^2):
@@ -20,7 +24,9 @@ int solve(int xi, yi)
   return res;
 }
 
-----Longest Common Substring: (the characters must be adjacent);
+
+----Longest Common Substring: (the characters must be adjacent)
+
 **Dp Solution:
 --------------
 for(int i=0; i<(int)first.size(); i++)
