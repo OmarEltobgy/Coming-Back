@@ -1,3 +1,7 @@
+Segment Tree:
+-------------
+
+
 // All the calls will be nowNode = 1 and (left, right) is either (0, N-1) -0 based- or (1, N) -1 based-
 // don't forget to memset tree and lazy with initial value (0) in the begining 
 
