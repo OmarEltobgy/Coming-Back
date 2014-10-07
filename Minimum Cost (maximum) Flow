@@ -1,20 +1,6 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <queue>
-#include <string>
-#include <string.h>
-#include <stdlib.h>
-#include <map>
-#include <functional>
-#include <stack>
-#include <math.h>
-#include <iterator>
-#include <algorithm>
+Minimum Cost (maximum) Flow:
+---------------------------
 
-using namespace std;
-
-typedef pair<long long, int> li;
 
 vector<vector<int> > adjList;
 long long costPerUnitFlow[110][110];
