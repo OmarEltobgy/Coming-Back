@@ -1,21 +1,6 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <queue>
-#include <string>
-#include <string.h>
-#include <stdlib.h>
-#include <map>
-#include <functional>
-#include <stack>
-#include <math.h>
-#include <iterator>
-#include <algorithm>
-#include <time.h>
+Hashing:
+--------
 
-using namespace std;
-
-typedef pair<int, int> ii;
 
 vector<ii> hash;
 vector<int> value;
