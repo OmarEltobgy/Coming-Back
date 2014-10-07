@@ -1,3 +1,7 @@
+Gaussian Elimination Linear Algebra:
+------------------------------------
+
+
 vector<vector<double> > augMat; // the last column is the resulting matrix
 vector<double> result;
 long long inDependentN = 0;
