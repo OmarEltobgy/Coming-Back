@@ -1,3 +1,7 @@
+Graphs BFS, DFS:
+----------------
+
+
 **Taking the Input as AdjMat or AdjList:
 - Take care of repeated edges between same vertices either with the same weight or different weights 
 
