@@ -1,4 +1,6 @@
 ** KMP:
+-------
+
 
 int fail[1000000]; // the longest prefix that is also a proper suffix of the string from 0 to i
                // also this means that if we fail to match the character i what is the largest number of matched characters
