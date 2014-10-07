@@ -1,4 +1,7 @@
 **Bellman Ford:
+---------------
+
+
 - This is used to get single source shortest path to all other nodes also it allows edges to have negative weights
 - Also it can be used to determine if there exists any negative cycles in the graph
 
