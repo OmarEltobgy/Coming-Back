@@ -1,0 +1,62 @@
+Stanford Library:
+-----------------
+
+Table of Contents:
+-----------------
+
+** Combinatorial optimization:
+
+1 -- Sparse max-flow (C++)
+3 -- Min-cost max-flow (C++)
+4 -- Push-relabel max-flow (C++)
+5 -- Min-cost matching (C++)
+7 -- Max bipartite matching (C++)
+7 -- Global min cut (C++)
+8 -- Graph cut inference (C++)
+
+
+** Geometry: 
+
+10 - Convex hull (C++)
+11 - Miscellaneous geometry (C++)
+15 - Java geometry (Java)
+16 - 3D geometry (Java)
+17 - Slow Delaunay triangulation (C++)
+
+
+** Numerical algorithms:
+
+18 - Number theoretic algorithms (modular, Chinese remainder, linear Diophantine) (C++)
+19 - Systems of linear equations, matrix inverse, determinant (C++)
+21 - Reduced row echelon form, matrix rank (C++)
+22 - Fast Fourier transform (C++)
+23 - Simplex algorithm (C++)
+
+
+** Graph algorithms:
+
+25 - Fast Dijkstra's algorithm (C++)
+26 - Strongly connected components (C)
+26 - Eulerian Path (C++)
+
+
+** Data structures:
+
+27 - Suffix arrays (C++)
+28 - Binary Indexed Tree
+28 - Union-Find Set (C/C++)
+28 - KD-tree (C++)
+31 - Lazy Segment Tree (Java)
+32 - Lowest Common Ancestor (C++)
+
+
+** Miscellaneous:
+
+33 - Longest increasing subsequence (C++)
+33 - Dates (C++)
+34 - Regular expressions (Java)
+35 - Prime numbers (C++)
+36 - C++ input/output
+36 - Knuth-Morris-Pratt (C++)
+37 - Latitude/longitude
+38 - Emacs settings
