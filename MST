@@ -1,3 +1,7 @@
+Minimum Spanning Tree (MST):
+----------------------------
+
+
 - You should have undirected, connected, weighted graph and we want to get the minimum subset of edges so that the graph
   is still connected with no cycles to form a tree (n-1 edge) such that the total weights of edges is minimum (MST)
   
