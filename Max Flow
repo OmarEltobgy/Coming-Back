@@ -1,17 +1,6 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <queue>
-#include <string>
-#include <string.h>
-#include <stdlib.h>
-#include <map>
-#include <functional>
-#include <stack>
-#include <math.h>
-#include <iterator>
+Max Flow:
+--------
 
-using namespace std;
 
 int nodesN, startNode, endNode, edgesN;
 vector<vector<int> > adjList; // contains a list of neighbors to certain node
