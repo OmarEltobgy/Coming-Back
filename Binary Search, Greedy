@@ -1,17 +1,41 @@
 ** Binary Search: 
+-----------------
+
 
   int low, high, mid; // low is the beginning of the values and high is the end of them
   int arr[]; // Sorted Array or vector
   while(high >= low)
   {
     mid = (high+low)/2;
-    if(arr[mid] < val)
+    
+    if(high == low)
     {
-      high = mid - 1;
+      break;
     }
-    else if(arr[mid] > val)
+    
+    if(high == low-1)
     {
-      low = mid + 1;
+      if(arr[high] == mid) // or check(high) or arr[high] > mid [the thing that we want]
+      {
+        mid = high;
+        break;
+      }
+      else // certainly it is the low
+      {
+        mid = low;
+        break;
+      }
+    }
+    
+    if(arr[mid] < val) // it may be check(mid) == true 
+    {
+      high = mid - 1; // sometimes it is high = mid only depending on the problem statement
+                      // fo example if we need the first true value where arr[mid]<val
+    }
+    else if(arr[mid] > val) // it may be check(mid) == false 
+    {
+      low = mid + 1; // sometimes it is low = mid only depending on the problem statement
+                     // fo example if we need the first true value where arr[mid]>val
     }
     else //if(arr[mid] == val)
     {
