@@ -1,21 +1,13 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <queue>
-#include <string>
-#include <string.h>
-#include <stdlib.h>
-#include <map>
-#include <functional>
-#include <stack>
-#include <math.h>
-#include <iterator>
-#include <time.h>
-#include <algorithm>
-
-using namespace std;
+Trie:
+-----
 
 #define alphabetSize 26
+
+// We also cann make a pool of node pointers (big array) and in the node class we use an integer (index) to this array 
+// instead of using node pointers
+
+// Also if the alphabet size is large we can store the children as a linked list (left most child and next) for each node 
+// if we do this we will need character represiting nowChar
 
 class Node
 {
