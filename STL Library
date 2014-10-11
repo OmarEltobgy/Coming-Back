@@ -102,7 +102,9 @@ newStr = str.substr(int startPos, int length)
   sort (v.begin(), v.end());                //First of all sort the vector to use binary search
   vector<int>::iterator low,up;             //Make itertor of type vector<int>
   low=std::lower_bound (v.begin(), v.end(), 20); 
+  int lowIndex = low - v.begin();
   up= std::upper_bound (v.begin(), v.end(), 20);
+  int upIndex = up - v.begin();
   
 
 
